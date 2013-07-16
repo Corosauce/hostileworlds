@@ -1,0 +1,41 @@
+package hostileworlds.block;
+
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.Material;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
+import java.util.Random;
+
+public class BlockAuraCurse extends BlockContainer
+{
+    public BlockAuraCurse(int var1)
+    {
+        super(var1, Material.clay);
+    }
+
+    public int tickRate()
+    {
+        return 90;
+    }
+
+    public void updateTick(World var1, int var2, int var3, int var4, Random var5) {}
+
+    @Override
+    public TileEntity createNewTileEntity(World var1)
+    {
+        return new TileEntityAuraCurse();
+    }
+    
+    @Override
+    public boolean isOpaqueCube()
+    {
+        return false;
+    }
+    
+    @Override
+    public boolean renderAsNormalBlock()
+    {
+        return false;
+    }
+}
