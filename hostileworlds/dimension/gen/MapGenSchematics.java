@@ -1,8 +1,9 @@
 package hostileworlds.dimension.gen;
 
+import hostileworlds.HostileWorlds;
+
 import java.io.File;
 
-import hostileworlds.HostileWorlds;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;

@@ -6,12 +6,10 @@ import hostileworlds.ai.jobs.JobGroupHorde;
 import hostileworlds.block.TileEntityHWPortal;
 import hostileworlds.dimension.HWTeleporter;
 import hostileworlds.entity.EntityInvader;
+import hostileworlds.rts.RtsEngine;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-
 
 import modconfig.ConfigMod;
 import net.minecraft.block.Block;
@@ -22,6 +20,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.util.ChunkCoordinates;
 import CoroAI.componentAI.ICoroAI;
 
@@ -141,7 +140,7 @@ public class CommandHW extends CommandBase {
 							
 						}
 						WorldDirector.getPlayerNBT(username).setInteger("numOfWavesSpawned", val);
-						var1.sendChatToPlayer(username + "s waveCount set to " + val);
+						var1.sendChatToPlayer(ChatMessageComponent.func_111077_e(username + "s waveCount set to " + val));
 					} else if (var2[0].equalsIgnoreCase("boss")) {
 						if (var2[1].equalsIgnoreCase("reset")) {
 							if (player.dimension != 0) {
@@ -155,9 +154,9 @@ public class CommandHW extends CommandBase {
 						if (var2.length > 1) {
 							Object obj = ConfigMod.getField(getCommandName(), var2[1]);
 							if (obj != null) {
-								var1.sendChatToPlayer(var2[1] + " = " + obj);
+								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e(var2[1] + " = " + obj));
 							} else {
-								var1.sendChatToPlayer("failed to get " + var2[1]);
+								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("failed to get " + var2[1]));
 							}
 						}
 					} else if (var2[0].equalsIgnoreCase("set")) {
@@ -166,12 +165,12 @@ public class CommandHW extends CommandBase {
 							String val = "";
 							for (int i = 2; i < var2.length; i++) val += var2[i] + (i != var2.length-1 ? " " : "");
 							if (ConfigMod.updateField(getCommandName(), var2[1], val)) {
-								var1.sendChatToPlayer("set " + var2[1] + " to " + val);
+								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("set " + var2[1] + " to " + val));
 							} else {
-								var1.sendChatToPlayer("failed to set " + var2[1]);
+								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("failed to set " + var2[1]));
 							}
 						} else {
-							var1.sendChatToPlayer("set requires 3 parameters");
+							var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("set requires 3 parameters"));
 						}
 					} else if (var2[0].equalsIgnoreCase("derp")) {
 						int size = 96;
@@ -193,6 +192,12 @@ public class CommandHW extends CommandBase {
 				    		startZ += 1;
 				    		size -= 1;
 				    	}
+					} else if (var2[0].equalsIgnoreCase("rts")) {
+						if (var2[1].equalsIgnoreCase("new")) {
+							RtsEngine.teams.teamNew(player.worldObj.provider.dimensionId, new ChunkCoordinates((int)(player.posX), (int)(player.posY), (int)(player.posZ)));
+						} else if (var2[1].equalsIgnoreCase("reset") || var2[1].equalsIgnoreCase("clear") ) {
+							RtsEngine.teams.teamRemoveAll();
+						}
 					}
 					
 				}
@@ -210,5 +215,10 @@ public class CommandHW extends CommandBase {
     {
         return par1ICommandSender.canCommandSenderUseCommand(this.getRequiredPermissionLevel(), this.getCommandName());
     }
+
+	@Override
+	public String getCommandUsage(ICommandSender icommandsender) {
+		return "";
+	}
 
 }

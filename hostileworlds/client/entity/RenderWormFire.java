@@ -2,12 +2,11 @@ package hostileworlds.client.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
 public class RenderWormFire extends Render
 {
@@ -23,10 +22,14 @@ public class RenderWormFire extends Render
         GL11.glTranslatef((float)var2, (float)var4, (float)var6);
         //GL11.glTranslatef((float)var1.posX, (float)var1.posY, (float)var1.posZ);
         
-        this.loadTexture("/terrain.png");
         RenderBlocks rb = new RenderBlocks(var1.worldObj);
         rb.renderBlockAsItem(Block.lavaStill, 0, 0.8F);
         
         GL11.glPopMatrix();
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return new ResourceLocation("/terrain.png");
+	}
 }

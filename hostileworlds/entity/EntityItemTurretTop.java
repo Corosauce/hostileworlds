@@ -2,6 +2,7 @@ package hostileworlds.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityFlying;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
@@ -28,9 +29,7 @@ public class EntityItemTurretTop extends EntityFlying implements ICoroAI, IInvUs
 	
 	public EntityItemTurretTop(World par1World) {
 		super(par1World);
-		this.health = getMaxHealth();
-		texture = "/coro/hw/test2.png";
-		texture = "/mods/HostileWorlds/textures/blocks/bleedingMoss.png";
+		//texture = "/mods/HostileWorlds/textures/blocks/bleedingMoss.png";
 		setSize(0.2F, 0.3F);
 		
 		checkAgent();
@@ -39,11 +38,20 @@ public class EntityItemTurretTop extends EntityFlying implements ICoroAI, IInvUs
 		
 		agent.maxReach_Ranged = 40;
 		
-		agent.setMoveSpeed(0.0F);
+		agent.setSpeedFleeAdditive(0F);
+		agent.setSpeedNormalBase(0.0F);
+		
 		agent.dipl_info = TeamTypes.getType("comrade");
 		agent.collideResistClose = agent.collideResistFormation = agent.collideResistPathing = 1F;
 		entityCollisionReduction = 1F;
 		
+	}
+
+	@Override
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+		agent.applyEntityAttributes();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
 	}
 
 	@Override
@@ -123,11 +131,6 @@ public class EntityItemTurretTop extends EntityFlying implements ICoroAI, IInvUs
 	@Override
 	public boolean canDespawn() {
 		return false;
-	}
-
-	@Override
-	public int getMaxHealth() {
-		return 40;
 	}
 
 	@Override

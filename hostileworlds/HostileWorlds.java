@@ -8,6 +8,7 @@ import hostileworlds.config.ModConfigBlockFields;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.dimension.HWDimensionManager;
 import hostileworlds.gui.GuiHandler;
+import hostileworlds.rts.RtsEngine;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,6 +29,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import CoroAI.util.CoroUtilFile;
 
 import com.google.common.collect.Lists;
 
@@ -41,6 +43,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerAboutToStartEvent;
 import cpw.mods.fml.common.event.FMLServerStartedEvent;
 import cpw.mods.fml.common.event.FMLServerStoppedEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -49,13 +52,13 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-@NetworkMod(channels = { "Meteor", "Dimension", "InvasionData" }, clientSideRequired = true, serverSideRequired = true, packetHandler = HWPacketHandler.class)
-@Mod(modid = "HostileWorlds", name="Hostile Worlds", version="v0.3", useMetadata=false)
+@NetworkMod(channels = { "Meteor", "Dimension", "InvasionData" }, clientSideRequired = true, serverSideRequired = true, packetHandler = HWPacketHandler.class, versionBounds = "[0.4,0.4.9)")
+@Mod(modid = "HostileWorlds", name="Hostile Worlds", version="0.4", useMetadata=false)
 public class HostileWorlds {
 	
 	@Mod.Instance( value = "HostileWorlds" )
 	public static HostileWorlds instance;
-    
+	public static String modID = "hostileworlds";
     
     @SidedProxy(clientSide = "hostileworlds.ClientProxy", serverSide = "hostileworlds.CommonProxy")
     public static CommonProxy proxy;
@@ -67,9 +70,14 @@ public class HostileWorlds {
     public static Block blockRaidingLadderBase;
     public static Block blockItemTurret;
     public static Block blockFactory;
+    
+    public static Block blockRtsBuilding;
+    
     public static Item itemLaserBeam;
     
     public static int texBloodCobble;
+    
+    public static boolean initProperNeededForWorld = true;
     
     @PreInit
     public void preInit(FMLPreInitializationEvent event)
@@ -156,9 +164,15 @@ public class HostileWorlds {
     	TickRegistry.registerTickHandler(new ServerTickHandler(this), Side.SERVER);
     }
     
+    @Mod.ServerAboutToStart
+    public void serverAboutToStart(FMLServerAboutToStartEvent event) {
+    	//so it inits before entity nbt does
+    	
+    }
+    
     @Mod.ServerStarted
     public void serverStart(FMLServerStartedEvent event) {
-    	HWDimensionManager.loadAndRegisterDimensions();
+    	
     	
     	//proper command adding
     	//((ServerCommandManager) MinecraftServer.getServer().getCommandManager()).registerCommand(new commandAddOwner());
@@ -167,6 +181,18 @@ public class HostileWorlds {
     @Mod.ServerStopped
     public void serverStop(FMLServerStoppedEvent event) {
     	HWDimensionManager.unregisterDimensionsAndSave();
+    	ServerTickHandler.rts.writeToFile(true);
+    	initProperNeededForWorld = true;
+    }
+    
+    public static void initTry() {
+    	if (initProperNeededForWorld) {
+    		initProperNeededForWorld = false;
+	    	if (ServerTickHandler.rts == null) ServerTickHandler.rts = new RtsEngine();
+	    	ServerTickHandler.rts.readFromFile();
+	    	CoroUtilFile.getWorldFolderName(); //make it cache the lastWorldFolder, lucky that it was cached before, as serverStop method cant update the cache, issue arrised due to new use of FMLServerAboutToStartEvent
+	    	HWDimensionManager.loadAndRegisterDimensions();
+    	}
     }
     
     public static String lastWorldFolder = "";
@@ -202,7 +228,7 @@ public class HostileWorlds {
     
     @SideOnly(Side.CLIENT)
 	public static String getClientSidePath() {
-		return FMLClientHandler.instance().getClient().getMinecraftDir().getPath();
+		return FMLClientHandler.instance().getClient().mcDataDir.getPath();
 	}
 	
 	public static void writeGameNBT() {

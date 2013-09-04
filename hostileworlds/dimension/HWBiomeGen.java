@@ -1,10 +1,6 @@
 package hostileworlds.dimension;
 
-import hostileworlds.entity.monster.Zombie;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.SpawnListEntry;
 
 public class HWBiomeGen extends BiomeGenBase
 {

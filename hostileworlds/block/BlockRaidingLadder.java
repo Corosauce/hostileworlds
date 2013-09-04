@@ -7,9 +7,9 @@ import static net.minecraftforge.common.ForgeDirection.WEST;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
@@ -198,7 +198,7 @@ public class BlockRaidingLadder extends BlockContainer {
     }
 
     @Override
-    public boolean isLadder(World world, int x, int y, int z)
+    public boolean isLadder(World world, int x, int y, int z, EntityLivingBase ent)
     {
         return true;
     }

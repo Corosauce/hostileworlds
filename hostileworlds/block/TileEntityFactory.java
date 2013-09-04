@@ -1,6 +1,5 @@
 package hostileworlds.block;
 
-import hostileworlds.HostileWorlds;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.entity.comrade.EntityComradeImpl;
 
@@ -9,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -20,9 +19,9 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet132TileEntityData;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.AxisAlignedBB;
-import CoroAI.IPacketNBT;
+import CoroAI.ITilePacket;
 import CoroAI.componentAI.ICoroAI;
+import CoroAI.tile.TileHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import extendedrenderer.ExtendedRenderer;
@@ -30,7 +29,7 @@ import extendedrenderer.particle.ParticleRegistry;
 import extendedrenderer.particle.entity.EntityIconFX;
 import extendedrenderer.particle.entity.EntityRotFX;
 
-public class TileEntityFactory extends TileEntityPowerUser implements IInventory, IPacketNBT
+public class TileEntityFactory extends TileEntityPowerUser implements IInventory, ITilePacket
 {
     
     private ItemStack[] inv;
@@ -47,7 +46,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
     
 	// Entity / AI / FakePlayer integration
 	public ICoroAI entInt;
-	public EntityLiving entLiving;
+	public EntityLivingBase entLiving;
 	
 	public int repairTimeCur = 0;
 	public int repairTimeMax = 400;
@@ -55,7 +54,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	//Client fields
 	public int clTicksBuild = 0;
 	@SideOnly(Side.CLIENT)
-	public List<EntityRotFX> particles = new ArrayList<EntityRotFX>();
+	public List<EntityRotFX> particles;
 
     public TileEntityFactory() {
     	inv = new ItemStack[9];
@@ -131,7 +130,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 			
 			entLiving.setPosition(xCoord+0.5D, yCoord+0.1D/* - 2D + (2D * ((double)ticksBuildCur / (double)ticksBuildMax))*/, zCoord+0.5D);
 			
-			entLiving.setRotationYawHead(entLiving.rotationYaw += ticksBuildCur * 0.3);
+			entLiving.rotationYawHead += ticksBuildCur * 0.3;
 			//System.out.println(yCoord+0.1D - 2D + (2D * ((double)ticksBuildCur / (double)ticksBuildMax)));
 			
 			ticksBuildCur++;
@@ -155,6 +154,8 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	@SideOnly(Side.CLIENT)
 	public void tickAnimate() {
 		
+		if (particles == null) particles = new ArrayList<EntityRotFX>();
+		
 		//debug
 		//clTicksBuild = 0;
 		
@@ -170,7 +171,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	        	
 	        	Random rand = new Random();
 	        	
-	        	EntityRotFX entityfx = new EntityIconFX(worldObj, xCoord + rand.nextDouble(), yCoord + 0.0D + rand.nextDouble() * 1.5D, zCoord + rand.nextDouble(), (rand.nextDouble() - rand.nextDouble()) * speed, 0.03D/*(rand.nextDouble() - rand.nextDouble()) * speed*/, (rand.nextDouble() - rand.nextDouble()) * speed, ParticleRegistry.squareGrey, Minecraft.getMinecraft().renderEngine);
+	        	EntityRotFX entityfx = new EntityIconFX(worldObj, xCoord + rand.nextDouble(), yCoord + 0.0D + rand.nextDouble() * 1.5D, zCoord + rand.nextDouble(), (rand.nextDouble() - rand.nextDouble()) * speed, 0.03D/*(rand.nextDouble() - rand.nextDouble()) * speed*/, (rand.nextDouble() - rand.nextDouble()) * speed, ParticleRegistry.squareGrey);
 	        	
 				//entityfx.particleGravity = 0.5F;
 				entityfx.rotationYaw = rand.nextInt(360);
@@ -273,16 +274,16 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 		/*List entities = this.worldObj.getEntitiesWithinAABB(EntityComradeImpl.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)this.yCoord + 1.5D, (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 1), (double)(this.zCoord + 1)).expand(0.0D, 2.0D, 0.0D));
 		if (entities.size() > 0) {
 			entInt = (ICoroAI) entities.get(0);
-			HostileWorlds.dbg("Set BUILD piece entity to existing entity: " + ((EntityLiving)entities.get(0)).entityId);
+			HostileWorlds.dbg("Set BUILD piece entity to existing entity: " + ((EntityLivingBase)entities.get(0)).entityId);
 			if (entities.size() > 1) {
 				HostileWorlds.dbg("Duplicate BUILD piece detected, error? killing extra entities");
 				for (int i = 1; i < entities.size(); i++) {
-					HostileWorlds.dbg("killing: " + ((EntityLiving)entities.get(i)).entityId);
-					((EntityLiving)entities.get(i)).setDead();
+					HostileWorlds.dbg("killing: " + ((EntityLivingBase)entities.get(i)).entityId);
+					((EntityLivingBase)entities.get(i)).setDead();
 				}
 			}
 			
-			entLiving = (EntityLiving)entInt;
+			entLiving = (EntityLivingBase)entInt;
 			entLiving.setPosition(xCoord+0.5D, yCoord+1D, zCoord+0.5D);
 			//entInt.getAIAgent().entInv.inventoryOutsourced = this;
 			if (entities.size() == 0) {
@@ -438,12 +439,6 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 	
 	//Stuff to help IC2 or other
 	
@@ -475,5 +470,29 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	public void cleanup() {
 		super.cleanup();
 		cleanupEntity();
+	}
+
+	@Override
+	public void handleServerSentDataWatcherList(List parList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleClientSentDataWatcherList(List parList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TileHandler getTileHandler() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 }

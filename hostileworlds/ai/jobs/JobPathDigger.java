@@ -795,6 +795,12 @@ public class JobPathDigger extends JobGroupHorde {
         	
         	int id = ent.worldObj.getBlockId((int)curX, (int)curY, (int)curZ);
         	
+        	//area protection
+        	if (isNoDigCoord((int)curX, (int)curY, (int)curZ)) {
+        	    dbg("simudig fail: bukkit protected area");
+        	    return null;
+        	}
+        	
         	if (id != 0) {
         		foundFirstSolid = true;
         		curAirBlocksIntoSolid = 0;
@@ -850,6 +856,24 @@ public class JobPathDigger extends JobGroupHorde {
 			}
 		}
 		return false;
+	}
+	
+	public boolean isNoDigCoord(int x, int y, int z) {
+
+        // MCPC start
+          /*org.bukkit.entity.Entity bukkitentity = ent.getBukkitEntity();
+          if ((bukkitentity instanceof Player)) {
+            Player player = (Player)bukkitentity;
+            BlockBreakEvent breakev = new BlockBreakEvent(player.getWorld().getBlockAt(x, y, z), player);
+            Bukkit.getPluginManager().callEvent(breakev);
+            if (breakev.isCancelled()) {
+                return true;
+            }
+            breakev.setCancelled(true);
+          }*/
+          // MCPC end
+          
+          return false;
 	}
 	
 	public boolean isDangerBlock(int id) {

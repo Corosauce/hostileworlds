@@ -1,13 +1,13 @@
 package hostileworlds.ai;
 
-import net.minecraft.entity.EntityLiving;
-
 import java.util.ArrayList;
+
+import net.minecraft.entity.EntityLivingBase;
 
 public class GroupAI {
 
-	public ArrayList<EntityLiving> groupMembers;
-	public EntityLiving leader;
+	public ArrayList<EntityLivingBase> groupMembers;
+	public EntityLivingBase leader;
 	
 	public int maxSize;
 	public int anger;

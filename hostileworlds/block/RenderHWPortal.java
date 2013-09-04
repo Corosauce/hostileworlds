@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityEndPortal;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,6 +23,9 @@ public class RenderHWPortal extends TileEntitySpecialRenderer
     
     public boolean generateTexture = true;
 
+    public ResourceLocation resTunnel = new ResourceLocation("textures/environment/end_sky.png");
+    public ResourceLocation resField = new ResourceLocation("textures/entity/end_portal.png");
+    
     /**
      * Renders the End Portal.
      */
@@ -52,7 +55,7 @@ public class RenderHWPortal extends TileEntitySpecialRenderer
 
             if (var14 == 0)
             {
-                this.bindTextureByName("/misc/tunnel.png");
+            	Minecraft.getMinecraft().renderEngine.func_110577_a(resTunnel);
                 var17 = 0.1F;
                 var15 = 65.0F;
                 var16 = 0.125F;
@@ -62,7 +65,8 @@ public class RenderHWPortal extends TileEntitySpecialRenderer
 
             if (var14 == 1)
             {
-                this.bindTextureByName("/misc/particlefield.png");
+            	Minecraft.getMinecraft().renderEngine.func_110577_a(resField);
+                //this.bindTextureByName("/misc/particlefield.png");
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                 var16 = 0.5F;

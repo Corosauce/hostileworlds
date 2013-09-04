@@ -1,15 +1,10 @@
 package hostileworlds.client.entity;
 
 import hostileworlds.entity.monster.EntityWormSand;
-import net.minecraft.block.Block;
-import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-
-import org.lwjgl.opengl.GL11;
+import net.minecraft.util.ResourceLocation;
 
 public class RenderWormSand extends RenderLiving {
     
@@ -37,4 +32,10 @@ public class RenderWormSand extends RenderLiving {
     	
         doRenderLiving((EntityWormSand) entity, d, d1, d2, f, f1);
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -6,6 +6,7 @@ import hostileworlds.config.ModConfigFields;
 import hostileworlds.entity.EntityInvader;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.IBossDisplayData;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,7 +27,6 @@ public class ZombieBlockWielder extends EntityInvader implements IBossDisplayDat
 		this.setCurrentItemOrArmor(0, new ItemStack(ParticleMan.itemGlove));
 		this.setCurrentItemOrArmor(4, new ItemStack(Item.helmetIron));
 		
-		agent.setMoveSpeed(0.30F);
 		setSize(width * 1.5F, height * 1.5F);
 		ignoreFrustumCheck = true;
 		
@@ -38,6 +38,14 @@ public class ZombieBlockWielder extends EntityInvader implements IBossDisplayDat
 		
 		
 		agent.maxReach_Melee = 2F;
+	}
+	
+
+
+	@Override
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(500.0D);
 	}
 	
 	@Override
@@ -67,16 +75,6 @@ public class ZombieBlockWielder extends EntityInvader implements IBossDisplayDat
 	@Override
 	public boolean isInRangeToRenderVec3D(Vec3 par1Vec3) {
 		return true;
-	}
-	
-	@Override
-	public int getMaxHealth() {
-		return 500;
-	}
-
-	@Override
-	public int getBossHealth() {
-		return health;
 	}
 	
 	@Override

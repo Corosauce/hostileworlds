@@ -1,9 +1,9 @@
 package hostileworlds.entity.particle;
 
-import extendedrenderer.particle.entity.EntityRotFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import extendedrenderer.particle.entity.EntityRotFX;
 
 public class EntityMeteorTrailFX extends EntityRotFX {
 	

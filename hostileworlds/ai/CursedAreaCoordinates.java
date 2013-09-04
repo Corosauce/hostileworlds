@@ -1,7 +1,6 @@
 package hostileworlds.ai;
 
 import hostileworlds.HostileWorlds;
-import hostileworlds.ai.invasion.WorldEvent.EnumWorldEventType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ChunkCoordinates;
 

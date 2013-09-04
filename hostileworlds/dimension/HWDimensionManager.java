@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ChunkCoordinates;
@@ -246,14 +245,19 @@ public class HWDimensionManager {
     }
     
     public static void writeDimension(int dimID, NBTTagCompound dimData) {
+    	
+    	//no data, bail
+    	if (WorldDirector.curInvasions.get(dimID) == null) return;
+    	
     	//Invasions
-		NBTTagCompound invasionList = new NBTTagCompound();
+    	NBTTagCompound invasionList = new NBTTagCompound();
 		for (int j = 0; j < WorldDirector.curInvasions.get(dimID).size(); j++) {
 			WorldEvent invasion = WorldDirector.curInvasions.get(dimID).get(j);
 			NBTTagCompound invasionData = new NBTTagCompound();
 			invasion.writeNBT(invasionData);
 			invasionList.setCompoundTag("invasion_" + j, invasionData);
 		}
+    	
 		
 		//Curses
 		NBTTagCompound curseList = new NBTTagCompound();

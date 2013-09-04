@@ -5,10 +5,8 @@ import hostileworlds.ai.jobs.JobGroupHorde;
 import hostileworlds.ai.jobs.JobHunt;
 import hostileworlds.entity.EntityInvader;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
@@ -28,8 +26,6 @@ public class ZombieClimber extends EntityInvader implements IAdvPF {
 		//this.setCurrentItemOrArmor(4, new ItemStack(Item.helmetLeather));
 		this.setCurrentItemOrArmor(0, new ItemStack(Block.ladder));
 		this.setCurrentItemOrArmor(4, new ItemStack(Item.helmetIron));
-		
-		agent.setMoveSpeed(0.28F);
 	}
 
 	@Override
@@ -84,7 +80,7 @@ public class ZombieClimber extends EntityInvader implements IAdvPF {
 				Vec3 vPos = getPosition(1).addVector(0D, -0.5D, 0D);
 		        Vec3 vLook = getLook(1);
 		        Vec3 vec = vPos.addVector(vLook.xCoord * dist2, vLook.yCoord * dist2, vLook.zCoord * dist2);
-		        MovingObjectPosition mop = worldObj.rayTraceBlocks(vPos, vec);
+		        MovingObjectPosition mop = worldObj.clip(vPos, vec);
             	
 		        if (mop != null) {
 		        	int fixX = 0;

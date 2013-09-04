@@ -5,10 +5,9 @@ import net.minecraft.client.gui.inventory.GuiContainerCreative;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.client.ForgeHooksClient;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
@@ -16,6 +15,8 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.client.FMLClientHandler;
 
 public class WeaponRenderer implements IItemRenderer {
+	
+    public static final ResourceLocation resTex = new ResourceLocation("/mods/HostileWorlds/textures/items/blueLaserRay.png");
 	
 	public WeaponRenderer() {
 	}
@@ -76,8 +77,7 @@ public class WeaponRenderer implements IItemRenderer {
 	            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 	            GL11.glAlphaFunc(GL11.GL_GREATER, 0.003921569F);
 	            GL11.glDisable(GL11.GL_CULL_FACE);
-				FMLClientHandler.instance().getClient().renderEngine.bindTexture("/mods/HostileWorlds/textures/items/blueLaserRay.png");
-				
+	            FMLClientHandler.instance().getClient().func_110434_K().func_110577_a(resTex);
 				Tessellator tessellator = Tessellator.instance;
 				
 				float f = 0F;//par2Icon.getMinU();

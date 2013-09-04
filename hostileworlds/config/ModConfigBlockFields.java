@@ -1,7 +1,6 @@
 package hostileworlds.config;
 
 import modconfig.IConfigCategory;
-import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 
 public class ModConfigBlockFields implements IConfigCategory {

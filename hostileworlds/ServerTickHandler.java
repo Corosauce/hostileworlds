@@ -2,6 +2,7 @@ package hostileworlds;
 
 import hostileworlds.ai.WorldDirector;
 import hostileworlds.commands.CommandHW;
+import hostileworlds.rts.RtsEngine;
 
 import java.util.EnumSet;
 
@@ -18,6 +19,7 @@ public class ServerTickHandler implements ITickHandler
 	
 	public static HostileWorlds mod;
 	public static WorldDirector wd;
+	public static RtsEngine rts;
 	
 	public static World lastWorld = null;
 	
@@ -30,7 +32,14 @@ public class ServerTickHandler implements ITickHandler
 
 	@Override
     public void tickStart(EnumSet<TickType> type, Object... tickData) {
-    	
+		if (type.equals(EnumSet.of(TickType.WORLDLOAD))) {
+        	//System.out.println("RTSDBG: WORLDLOAD CALLED");
+        	World world = (World)tickData[0];
+        	if (world.provider.dimensionId == 0) {
+        		//System.out.println("is remote? " + world.isRemote);
+        		HostileWorlds.initTry();
+        	}
+        }
     }
 
     @Override
@@ -45,7 +54,7 @@ public class ServerTickHandler implements ITickHandler
     @Override
     public EnumSet<TickType> ticks()
     {
-        return EnumSet.of(TickType.SERVER);
+        return EnumSet.of(TickType.SERVER, TickType.WORLDLOAD);
     }
 
     @Override
@@ -56,6 +65,7 @@ public class ServerTickHandler implements ITickHandler
     {
     	
     	if (wd == null) wd = new WorldDirector();
+    	if (rts == null) rts = new RtsEngine();
     	
     	if (lastWorld != DimensionManager.getWorld(0)) {
     		lastWorld = DimensionManager.getWorld(0);
@@ -64,6 +74,7 @@ public class ServerTickHandler implements ITickHandler
     	}
     	
     	wd.onTick();
+    	rts.tickUpdate();
     	
     	/*if (test == null) test = new Test();
     	if (lastWorld.getWorldTime() % 20 == 0) test.tick();*/

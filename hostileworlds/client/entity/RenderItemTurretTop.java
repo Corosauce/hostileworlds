@@ -1,5 +1,6 @@
 package hostileworlds.client.entity;
 
+import hostileworlds.HostileWorlds;
 import hostileworlds.entity.EntityItemTurretTop;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -7,9 +8,11 @@ import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.tileentity.TileEntitySkullRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.IItemRenderer.ItemRenderType;
 import net.minecraftforge.client.IItemRenderer.ItemRendererHelper;
@@ -25,6 +28,11 @@ public class RenderItemTurretTop extends RenderLiving {
         super(modelbase, f);
         model = modelbase;
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return new ResourceLocation(HostileWorlds.modID + ":textures/blocks/bleedingMoss.png");
+	}
 
     @Override
     public void doRenderLiving(EntityLiving entityliving, double d, double d1, double d2,
@@ -43,13 +51,13 @@ public class RenderItemTurretTop extends RenderLiving {
     }
     
     @Override
-    protected void renderEquippedItems(EntityLiving par1EntityLiving, float par2)
+    protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2)
     {
         float f1 = 1.0F;
         GL11.glColor3f(f1, f1, f1);
-        super.renderEquippedItems(par1EntityLiving, par2);
-        ItemStack itemstack = par1EntityLiving.getHeldItem();
-        ItemStack itemstack1 = par1EntityLiving.getCurrentArmor(3);
+        super.renderEquippedItems(par1EntityLivingBase, par2);
+        ItemStack itemstack = par1EntityLivingBase.getHeldItem();
+        ItemStack itemstack1 = par1EntityLivingBase.getCurrentItemOrArmor(3); //used to be getCurrentArmor, if issue, backtrack from that method in 1.5.2
         float f2;
 
         //custom adjustment start
@@ -76,7 +84,7 @@ public class RenderItemTurretTop extends RenderLiving {
                     GL11.glScalef(f2, -f2, -f2);
                 }
 
-                this.renderManager.itemRenderer.renderItem(par1EntityLiving, itemstack1, 0);
+                this.renderManager.itemRenderer.renderItem(par1EntityLivingBase, itemstack1, 0);
             }
             else if (itemstack1.getItem().itemID == Item.skull.itemID)
             {
@@ -156,13 +164,13 @@ public class RenderItemTurretTop extends RenderLiving {
                 GL11.glRotatef(20.0F, 0.0F, 0.0F, 1.0F);
             }
 
-            this.renderManager.itemRenderer.renderItem(par1EntityLiving, itemstack, 0);
+            this.renderManager.itemRenderer.renderItem(par1EntityLivingBase, itemstack, 0);
 
             if (itemstack.getItem().requiresMultipleRenderPasses())
             {
                 for (int x = 1; x < itemstack.getItem().getRenderPasses(itemstack.getItemDamage()); x++)
                 {
-                    this.renderManager.itemRenderer.renderItem(par1EntityLiving, itemstack, x);
+                    this.renderManager.itemRenderer.renderItem(par1EntityLivingBase, itemstack, x);
                 }
             }
 

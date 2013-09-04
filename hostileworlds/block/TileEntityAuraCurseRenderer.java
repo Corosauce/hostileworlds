@@ -1,20 +1,16 @@
 package hostileworlds.block;
 
+import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.invasion.WorldEvent;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import hostileworlds.ai.WorldDirector;
-import hostileworlds.ai.invasion.WorldEvent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.DimensionManager;
 
 import org.lwjgl.opengl.GL11;
 
@@ -90,7 +86,7 @@ public class TileEntityAuraCurseRenderer extends TileEntitySpecialRenderer
     
     protected void renderLivingLabel(String par2Str, double par3, double par5, double par7, int par9, int width, int height)
     {
-        //float var10 = par1EntityLiving.getDistanceToEntity(this.renderManager.livingPlayer);
+        //float var10 = par1EntityLivingBase.getDistanceToEntity(this.renderManager.livingPlayer);
 
         int borderSize = 2;
     	

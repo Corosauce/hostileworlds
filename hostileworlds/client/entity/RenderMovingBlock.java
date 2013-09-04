@@ -6,8 +6,10 @@ import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
@@ -23,11 +25,18 @@ public class RenderMovingBlock extends Render
 	
     public RenderMovingBlock()
     {
+    	
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return TextureMap.field_110575_b;
+	}
 
     @Override
     public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9)
     {
+    	this.func_110777_b(var1);
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_FOG);
         
@@ -40,7 +49,7 @@ public class RenderMovingBlock extends Render
         GL11.glRotatef((float)(entBlock.age * entBlock.blockNum * 0.02F * 180.0D / (Math.PI * 2D) - 0.0D), 0.0F, 0.0F, 1.0F);
         GL11.glScalef(size, size, size);
         
-        this.loadTexture("/terrain.png");
+        //this.loadTexture("/terrain.png");
         Block block = Block.blocksList[entBlock.blockID];
         
         block = Block.lavaStill;

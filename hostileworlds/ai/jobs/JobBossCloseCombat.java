@@ -1,15 +1,11 @@
 package hostileworlds.ai.jobs;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.DamageSource;
-
 import hostileworlds.entity.monster.EntityWormFire;
 
 import java.util.List;
 
-import CoroAI.PFQueue;
-import CoroAI.c_CoroAIUtil;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import CoroAI.componentAI.jobSystem.JobBase;
 import CoroAI.componentAI.jobSystem.JobManager;
 import CoroAI.entity.EnumJobState;
@@ -51,7 +47,7 @@ public class JobBossCloseCombat extends JobBase {
 		}
 		
 		if (!spawnedWorm) {
-			if (ent.health < ent.getMaxHealth() / 2 && ent.health != 0) {
+			if (ent.func_110143_aJ() < ent.func_110138_aP() / 2 && ent.func_110143_aJ() != 0) {
 				spawnedWorm = true;
 				EntityWormFire worm = new EntityWormFire(ent.worldObj);
 				worm.setPosition(ent.posX, ent.posY + 40, ent.posZ);
@@ -70,7 +66,7 @@ public class JobBossCloseCombat extends JobBase {
 		            Entity entity1 = (Entity)list.get(j);
 		            if(isEnemy(entity1))
 		            {
-		            	if (xRay || ((EntityLiving) entity1).canEntityBeSeen(ent)) {
+		            	if (xRay || ((EntityLivingBase) entity1).canEntityBeSeen(ent)) {
 		            		if (sanityCheck(entity1)/* && entity1 instanceof EntityPlayer*/) {
 		            			float dist = ent.getDistanceToEntity(entity1);
 		            			if (dist < closest) {

@@ -1,34 +1,12 @@
 package hostileworlds.block;
 
-import hostileworlds.HostileWorlds;
-import hostileworlds.config.ModConfigFields;
 import ic2.api.Direction;
 import ic2.api.energy.event.EnergyTileLoadEvent;
 import ic2.api.energy.event.EnergyTileUnloadEvent;
 import ic2.api.energy.tile.IEnergySink;
-
-import java.util.List;
-
-import cpw.mods.fml.common.registry.GameRegistry;
-
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.network.packet.Packet132TileEntityData;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
-import CoroAI.IPacketNBT;
-import CoroAI.componentAI.AIFakePlayer;
-import CoroAI.componentAI.ICoroAI;
 
 public class TileEntityPowerUser extends TileEntity implements IEnergySink
 {

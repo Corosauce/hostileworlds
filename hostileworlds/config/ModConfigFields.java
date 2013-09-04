@@ -2,7 +2,6 @@ package hostileworlds.config;
 
 import modconfig.IConfigCategory;
 import net.minecraft.block.Block;
-import net.minecraftforge.common.Configuration;
 
 public class ModConfigFields implements IConfigCategory {
 
@@ -13,10 +12,10 @@ public class ModConfigFields implements IConfigCategory {
     public static int meteorCrashDistFromPlayerMax = 400;
     public static int areaConverterReplaceBlocksWith = Block.cobblestoneMossy.blockID;
     public static boolean invadersDropNothing = true;
-    public static int coolDownFirstTime = 24000 * 3;
-    public static int coolDownBetweenInvasionsPortal = 24000 * 5;
+    public static int coolDownFirstTime = 24000 * 6;
+    public static int coolDownBetweenInvasionsPortal = 24000 * 10;
     public static int coolDownBetweenInvasionsCave = 12000;
-    public static int coolDownBetweenWaves = 12000;
+    public static int coolDownBetweenWaves = 3600;
     public static int invasionWaveCountMax = 6;
     public static int invasionBaseInvaderCount = 6;
     public static boolean portalTeleporting = true;
@@ -30,7 +29,7 @@ public class ModConfigFields implements IConfigCategory {
     public static boolean debugTickMain = true;
     public static boolean debugDoAreaScans = true;
     public static boolean debugTurretsFreeEnergy = false;
-    public static boolean warpInvadersCloser = true;
+    public static boolean warpInvadersCloser = false;
     public static int autoSaveFrequencyInTicks = 36000; //30 minutes
     
 	@Override

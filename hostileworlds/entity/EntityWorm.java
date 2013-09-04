@@ -18,16 +18,14 @@ public class EntityWorm extends EntityFlying implements ICoroAI {
 	
 	public EntityWorm(World par1World) {
 		super(par1World);
-		this.health = getMaxHealth();
 		//texture = "/tropicalmod/test.png";
-		this.texture = "/mob/zombie.png";
+		//this.texture = "/mob/zombie.png";
 		//setSize(0.6F, 2F);
 	
 		if (agent == null) agent = new AIAgent(this, false);
 		
 		//agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
 		
-		agent.setMoveSpeed(0.28F);
 		agent.dipl_info = TeamTypes.getType("undead");
 		entityCollisionReduction = 0.9F;
 	}
@@ -60,11 +58,6 @@ public class EntityWorm extends EntityFlying implements ICoroAI {
 	@Override
 	public boolean canDespawn() {
 		return false;
-	}
-
-	@Override
-	public int getMaxHealth() {
-		return 20;
 	}
 
 	@Override

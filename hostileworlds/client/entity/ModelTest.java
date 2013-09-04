@@ -4,7 +4,7 @@ import hostileworlds.entity.EntityTestAI;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 
 import org.lwjgl.opengl.GL11;
 
@@ -103,7 +103,7 @@ public class ModelTest extends ModelBase {
     }
     
     @Override
-    public void setLivingAnimations(EntityLiving entityliving, float f, float f1, float f2) {
+    public void setLivingAnimations(EntityLivingBase entityliving, float f, float f1, float f2) {
         
 
         if (entityliving instanceof EntityTestAI) {
@@ -117,18 +117,18 @@ public class ModelTest extends ModelBase {
 
     }
 
-    public void setLivingAnimationSit(EntityLiving entityliving, float f, float f1, float f2) {
+    public void setLivingAnimationSit(EntityLivingBase entityliving, float f, float f1, float f2) {
     	body.setRotationPoint(0F, 20F, 0F);
         body.rotateAngleX = 0.9320058F;
         body.rotateAngleY = 3.141593F;
     }
     
-    public void setLivingAnimationClimb(EntityLiving entityliving, float f, float f1, float f2) {
+    public void setLivingAnimationClimb(EntityLivingBase entityliving, float f, float f1, float f2) {
     	body.rotateAngleX = 1.570796F;
         body.setRotationPoint(0F, 16F, 0F);
     }
     
-    public void setLivingAnimationStand(EntityLiving entityliving, float f, float f1, float f2) {
+    public void setLivingAnimationStand(EntityLivingBase entityliving, float f, float f1, float f2) {
     	body.setRotationPoint(0F, 16F, 0F);
         body.rotateAngleY = 3.141593F;
         body.rotateAngleX = 0F;

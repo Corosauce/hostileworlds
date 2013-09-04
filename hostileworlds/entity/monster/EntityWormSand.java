@@ -15,8 +15,6 @@ public class EntityWormSand extends EntityWorm {
 	public EntityWormSand(World par1World) {
 		super(par1World);
 		
-		texture = "/coro/hw/test2.png";
-		
 		setSize(1.5F, 1F);
 		
 		agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));

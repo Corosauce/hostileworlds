@@ -1,14 +1,10 @@
 package hostileworlds.entity;
 
-import weather.c_CoroWeatherUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
 import CoroAI.componentAI.AIAgent;
 import CoroAI.componentAI.ICoroAI;
 import CoroAI.componentAI.jobSystem.JobHunt;
@@ -19,15 +15,11 @@ public class EntityTestAI extends EntityLiving implements ICoroAI {
 	
 	public EntityTestAI(World par1World) {
 		super(par1World);
-		this.health = 20;
-		texture = "/coro/hw/test.png";
 		setSize(.5F, .8F);
 	
 		agent = new AIAgent(this, false);
 		
 		agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
-		
-		agent.setMoveSpeed(0.28F);
 	}
 
 	@Override
@@ -45,11 +37,6 @@ public class EntityTestAI extends EntityLiving implements ICoroAI {
     {
         return true;
     }
-
-	@Override
-	public int getMaxHealth() {
-		return 15;
-	}
 
 	@Override
 	public AIAgent getAIAgent() {

@@ -5,7 +5,9 @@ import hostileworlds.entity.EntityMeteorite;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 import org.lwjgl.opengl.GL11;
@@ -24,6 +26,7 @@ public class RenderMeteorite extends Render
     @Override
     public void doRender(Entity var1, double var2, double var4, double var6, float var8, float var9)
     {
+    	this.func_110777_b(var1);
         GL11.glPushMatrix();
         GL11.glDisable(GL11.GL_FOG);
         
@@ -32,7 +35,6 @@ public class RenderMeteorite extends Render
         if (size < 5) size = 5;
         
         GL11.glTranslatef((float)var2, (float)var4, (float)var6);
-        this.loadTexture("/terrain.png");
         Block block = HostileWorlds.blockBloodyCobblestone;
         World var11 = var1.worldObj;
         GL11.glDisable(GL11.GL_LIGHTING);
@@ -50,4 +52,9 @@ public class RenderMeteorite extends Render
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return TextureMap.field_110575_b;
+	}
 }

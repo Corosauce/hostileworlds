@@ -5,16 +5,14 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiSmallButton;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.gui.inventory.GuiFurnace;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.lwjgl.opengl.GL11;
 
-import CoroAI.PacketHelper;
-
-import cpw.mods.fml.client.FMLClientHandler;
+import CoroAI.tile.PacketHelper;
 
 public class GuiItemTurret extends GuiContainer {
 
@@ -27,6 +25,8 @@ public class GuiItemTurret extends GuiContainer {
 	public static int B_MELEERIGHTCLICK = 4;
 	public static int B_RANGE_UP = 5;
 	public static int B_RANGE_DOWN = 6;
+	
+	public ResourceLocation resGUI = new ResourceLocation("/mods/HostileWorlds/textures/gui/guiItemTurret.png");
 	
 	public GuiItemTurret (InventoryPlayer inventoryPlayer,
             TileEntityItemTurret tileEntity) {
@@ -78,7 +78,8 @@ public class GuiItemTurret extends GuiContainer {
 	    //draw your Gui here, only thing you need to change is the path
 	    //int texture = mc.renderEngine.getTexture("/gui/trap.png");
 	    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-	    this.mc.renderEngine.bindTexture("/mods/HostileWorlds/textures/gui/guiItemTurret.png");
+	    //this.mc.renderEngine.bindTexture("/mods/HostileWorlds/textures/gui/guiItemTurret.png");
+	    mc.func_110434_K().func_110577_a(resGUI);
 	    int x = (width - xSize) / 2;
 	    int y = (height - ySize) / 2;
 	    this.drawTexturedModalRect(x, y, 0, 0, xSize, ySize);
@@ -147,7 +148,7 @@ public class GuiItemTurret extends GuiContainer {
         	nbt.setBoolean("meleeRightClick", !tEnt.meleeRightClick);
         }
         
-    	FMLClientHandler.instance().getClient().thePlayer.sendQueue.addToSendQueue(PacketHelper.getTileEntityPacket(tEnt, nbt));
+        PacketHelper.sendClientPacket(PacketHelper.createPacketForTEntCommand(tEnt, nbt));
     }
 	
 	public int sanitize(int val) {

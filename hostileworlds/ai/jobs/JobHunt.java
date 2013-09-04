@@ -3,8 +3,7 @@ package hostileworlds.ai.jobs;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.DamageSource;
 import CoroAI.componentAI.jobSystem.JobBase;
 import CoroAI.componentAI.jobSystem.JobManager;
@@ -75,7 +74,7 @@ public class JobHunt extends JobBase {
 		            Entity entity1 = (Entity)list.get(j);
 		            if(isEnemy(entity1))
 		            {
-		            	if (xRay || ((EntityLiving) entity1).canEntityBeSeen(ent)) {
+		            	if (xRay || ((EntityLivingBase) entity1).canEntityBeSeen(ent)) {
 		            		if (sanityCheck(entity1)/* && entity1 instanceof EntityPlayer*/) {
 		            			float dist = ent.getDistanceToEntity(entity1);
 		            			if (dist < closest) {
@@ -116,7 +115,7 @@ public class JobHunt extends JobBase {
 			}*/
 			
 		//}
-		ent.prevHealth = ent.getHealth();
+		ent.prevHealth = ent.func_110143_aJ();
 	}
 	
 	
@@ -138,7 +137,7 @@ public class JobHunt extends JobBase {
 	}
 	
 	public boolean sanityCheckHelp(Entity caller, Entity target) {
-		if (ent.getHealth() < 10) {
+		if (ent.func_110143_aJ() < 10) {
 			return false;
 		}
 		
@@ -154,7 +153,7 @@ public class JobHunt extends JobBase {
 	}
 	
 	public boolean sanityCheck(Entity target) {
-		if (ent.getHealth() < 6) {
+		if (ent.func_110143_aJ() < 6) {
 			return false;
 		}
 		

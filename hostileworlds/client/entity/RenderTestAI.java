@@ -6,8 +6,10 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -38,7 +40,7 @@ public class RenderTestAI extends RenderLiving {
     }
 
     @Override
-    protected void renderEquippedItems(EntityLiving entityliving, float f) {
+    protected void renderEquippedItems(EntityLivingBase entityliving, float f) {
         ItemStack itemstack = entityliving.getHeldItem();
         if (itemstack != null) {
             GL11.glPushMatrix();
@@ -69,4 +71,10 @@ public class RenderTestAI extends RenderLiving {
             GL11.glPopMatrix();
         }
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

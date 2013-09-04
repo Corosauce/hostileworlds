@@ -11,6 +11,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
@@ -38,7 +39,7 @@ public class EntityWormFire extends EntityWorm {
 	public float bodyShiftSize = 0.2F;
 	public float moveSpeedMax = 1.5F;
 	public float moveSpeed = 0.04F;
-	public int lastHealth = maxHealth;
+	public float lastHealth = maxHealth;
 	public boolean spawning = true;
 	
 	public double lastMotionX = 0;
@@ -88,13 +89,16 @@ public class EntityWormFire extends EntityWorm {
 		super(par1World);
 		
 		maxHealth = nodePieces * nodePieceBlockCount;
-		health = getMaxHealth();
-		
-		texture = "/coro/hw/test2.png";
 		
 		setSize(1.5F, 1F);
 		
 		agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
+	}
+	
+	@Override
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(maxHealth);
 	}
 	
 	@Override
@@ -105,17 +109,12 @@ public class EntityWormFire extends EntityWorm {
     }
 	
 	@Override
-	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2) {
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		if (par1DamageSource == DamageSource.cactus) {
 			System.out.println("boom");
-			health -= 1;
+			setEntityHealth(func_110143_aJ() -1);
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
-	}
-	
-	@Override
-	public int getMaxHealth() {
-		return maxHealth;
 	}
 	
 	public void spawnBlock(WormNode node) {
@@ -182,9 +181,9 @@ public class EntityWormFire extends EntityWorm {
 				}
 			}
 			
-			if (health != lastHealth) {
-				int diff = lastHealth - health;
-				lastHealth = health;
+			if (func_110143_aJ() != lastHealth) {
+				float diff = lastHealth - func_110143_aJ();
+				lastHealth = func_110143_aJ();
 				for (int j = nodes.size()-1; j >= 0; j--) {
 					
 					List<MovingBlock> blocks = nodes.get(j).blocks;

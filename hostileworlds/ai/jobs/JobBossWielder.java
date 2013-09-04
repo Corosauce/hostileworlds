@@ -7,7 +7,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import particleman.entities.EntityParticleControllable;
 import CoroAI.componentAI.jobSystem.JobBase;
 import CoroAI.componentAI.jobSystem.JobManager;
@@ -70,7 +70,7 @@ public class JobBossWielder extends JobBase {
 		            Entity entity1 = (Entity)list.get(j);
 		            if(isEnemy(entity1))
 		            {
-		            	if (xRay || ((EntityLiving) entity1).canEntityBeSeen(ent)) {
+		            	if (xRay || ((EntityLivingBase) entity1).canEntityBeSeen(ent)) {
 		            		//if (sanityCheck(entity1)) {
 		            			float dist = ent.getDistanceToEntity(entity1);
 		            			if (dist < closest) {
@@ -175,7 +175,7 @@ public class JobBossWielder extends JobBase {
 		blocks.remove(0);
 		
 		mb.triggerOwnerDied();
-		mb.target = (EntityLiving) ai.entityToAttack;
+		mb.target = (EntityLivingBase) ai.entityToAttack;
 		mb.targetTillDist = 2;
 		
 		

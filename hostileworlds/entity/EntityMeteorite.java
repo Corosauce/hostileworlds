@@ -5,7 +5,6 @@ import hostileworlds.ServerTickHandler;
 import hostileworlds.ai.WorldDirector;
 import hostileworlds.ai.invasion.WorldEvent;
 import hostileworlds.block.TileEntityHWPortal;
-import hostileworlds.dimension.HWTeleporter;
 import hostileworlds.entity.particle.EntityMeteorTrailFX;
 
 import java.util.List;
@@ -13,10 +12,8 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -27,7 +24,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
-import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -40,7 +36,7 @@ public class EntityMeteorite extends Entity
     private int inTileSnowball = 0;
     private boolean inGroundSnowball = false;
     public int shakeSnowball = 0;
-    private EntityLiving shootingEntity;
+    private EntityLivingBase shootingEntity;
     private int ticksInGroundSnowball;
     private int ticksInAirSnowball = 0;
 
@@ -170,7 +166,7 @@ public class EntityMeteorite extends Entity
 
         Vec3 var15 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         Vec3 var2 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        MovingObjectPosition var3 = this.worldObj.rayTraceBlocks(var15, var2);
+        MovingObjectPosition var3 = this.worldObj.clip(var15, var2);
         var15 = Vec3.createVectorHelper(this.posX, this.posY, this.posZ);
         var2 = Vec3.createVectorHelper(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
 

@@ -10,12 +10,9 @@ import ic2.api.energy.tile.IEnergySink;
 
 import java.util.List;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -27,13 +24,14 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraftforge.common.MinecraftForge;
-import CoroAI.IPacketNBT;
+import CoroAI.ITilePacket;
 import CoroAI.componentAI.AIFakePlayer;
 import CoroAI.componentAI.ICoroAI;
 import CoroAI.componentAI.IInvOutsourced;
 import CoroAI.componentAI.jobSystem.JobHuntTurret;
+import CoroAI.tile.TileHandler;
 
-public class TileEntityItemTurret extends TileEntity implements IInventory, IEnergySink, IInvOutsourced, IPacketNBT
+public class TileEntityItemTurret extends TileEntity implements IInventory, IEnergySink, IInvOutsourced, ITilePacket
 {
     
 	//!!!!!!!!
@@ -82,7 +80,7 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 	
 	// Entity / AI / FakePlayer integration
 	public ICoroAI entInt;
-	public EntityLiving entLiving;
+	public EntityLivingBase entLiving;
 	
 	public boolean firstTimeSync = true;
 	public boolean hasLoadedNBT = false;
@@ -318,18 +316,18 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 		List entities = this.worldObj.getEntitiesWithinAABB(EntityItemTurretTop.class, AxisAlignedBB.getBoundingBox((double)this.xCoord, (double)this.yCoord + 1.5D, (double)this.zCoord, (double)(this.xCoord + 1), (double)(this.yCoord + 1), (double)(this.zCoord + 1)).expand(0.0D, 2.0D, 0.0D));
 		if (entities.size() > 0) {
 			entInt = (ICoroAI) entities.get(0);
-			HostileWorlds.dbg("Set top piece entity to existing entity: " + ((EntityLiving)entities.get(0)).entityId);
+			HostileWorlds.dbg("Set top piece entity to existing entity: " + ((EntityLivingBase)entities.get(0)).entityId);
 			if (entities.size() > 1) {
 				HostileWorlds.dbg("Duplicate EntityItemTurretTop detected, error? killing extra entities");
 				for (int i = 1; i < entities.size(); i++) {
-					HostileWorlds.dbg("killing: " + ((EntityLiving)entities.get(i)).entityId);
-					((EntityLiving)entities.get(i)).setDead();
+					HostileWorlds.dbg("killing: " + ((EntityLivingBase)entities.get(i)).entityId);
+					((EntityLivingBase)entities.get(i)).setDead();
 				}
 			}
 		} else {
 			entInt = new EntityItemTurretTop(worldObj);
 		}
-		entLiving = (EntityLiving)entInt;
+		entLiving = (EntityLivingBase)entInt;
 		entLiving.setPosition(xCoord+0.5D, yCoord+1D, zCoord+0.5D);
 		entInt.getAIAgent().entInv.inventoryOutsourced = this;
 		if (entities.size() == 0) {
@@ -486,12 +484,6 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public boolean isStackValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return true;
-	}
 	
 	//Stuff to help IC2 or other
 	
@@ -562,6 +554,30 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 		}
 		
 		return powerLeft;
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void handleServerSentDataWatcherList(List parList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void handleClientSentDataWatcherList(List parList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TileHandler getTileHandler() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	//IC2 methods Start \\

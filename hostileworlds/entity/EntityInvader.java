@@ -3,6 +3,8 @@ package hostileworlds.entity;
 import hostileworlds.config.ModConfigFields;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.BaseAttribute;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathEntity;
@@ -26,14 +28,11 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
 	
 	public EntityInvader(World par1World) {
 		super(par1World);
-		this.health = 20;
 		//texture = "/tropicalmod/test.png";
-		this.texture = "/mob/zombie.png";
+		//this.texture = "/mob/zombie.png";
 		//setSize(0.6F, 2F);
 		
 		//agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
-		this.health = getMaxHealth();
-		agent.setMoveSpeed(0.28F);
 		entityCollisionReduction = 0.9F;
 		agent.dipl_info = TeamTypes.getType("undead");
 		
@@ -43,6 +42,15 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
 	            this.equipmentDropChances[i] = 0;
 	        }
 		}
+	}
+	
+	@Override
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+		agent.setSpeedFleeAdditive(0.1F);
+		agent.setSpeedNormalBase(0.6F);
+		agent.applyEntityAttributes();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
 	}
 	
 	@Override
@@ -72,11 +80,6 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
     }
 
 	@Override
-	public int getMaxHealth() {
-		return 20;
-	}
-
-	@Override
 	public AIAgent getAIAgent() {
 		return agent;
 	}
@@ -104,7 +107,13 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
 		float calcDamage = 2;
 		
 		if (this.getCurrentItemOrArmor(0) != null) {
-			calcDamage = this.getCurrentItemOrArmor(0).getItem().getDamageVsEntity(ent);
+			
+			calcDamage = (float)this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
+			
+			System.out.println("attackMelee calcDamage val: " + calcDamage);
+			//calcDamage = this.getCurrentItemOrArmor(0).getItem().getDamageVsEntity(ent);
+			//this might cast crash, how to use multimap?
+			//calcDamage = (float) ((BaseAttribute) this.getCurrentItemOrArmor(0).func_111283_C().get("generic.attackDamage")).func_111110_b();
 		}
 		
 		calcDamage *= 0.75F;

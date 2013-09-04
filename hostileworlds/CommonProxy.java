@@ -9,7 +9,6 @@ import hostileworlds.block.TileEntityAuraCurse;
 import hostileworlds.block.TileEntityFactory;
 import hostileworlds.block.TileEntityHWPortal;
 import hostileworlds.block.TileEntityItemTurret;
-import hostileworlds.block.TileEntityRaidingLadderBase;
 import hostileworlds.config.ModConfigBlockFields;
 import hostileworlds.entity.EntityItemTurretTop;
 import hostileworlds.entity.EntityMeteorite;
@@ -24,15 +23,18 @@ import hostileworlds.entity.monster.ZombieClimber;
 import hostileworlds.entity.monster.ZombieHungry;
 import hostileworlds.entity.monster.ZombieMiner;
 import hostileworlds.item.ItemLaserBeam;
+import hostileworlds.rts.block.BlockRTSBuilding;
+import hostileworlds.rts.block.TileEntityRTSBuilding;
+import hostileworlds.rts.entity.EntityRtsWorker;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.src.ModLoader;
 import net.minecraft.world.World;
+import CoroAI.util.CoroUtilBlock;
+import CoroAI.util.CoroUtilItem;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -55,21 +57,21 @@ public class CommonProxy implements IGuiHandler
         mod = pMod;
         //TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);
         
-        pMod.blockAuraCurse = (new BlockAuraCurse(ModConfigBlockFields.blockIDStart++)).setCreativeTab(CreativeTabs.tabMisc).setUnlocalizedName("HostileWorlds:stoneMoss");
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockAuraCurse = (new BlockAuraCurse(ModConfigBlockFields.blockIDStart++)).setCreativeTab(CreativeTabs.tabMisc), HostileWorlds.modID + ":stoneMoss");
         GameRegistry.registerBlock(pMod.blockAuraCurse, "Curse Aura");
         GameRegistry.registerTileEntity(TileEntityAuraCurse.class, "tileEntityAuraCurse");
         LanguageRegistry.addName(pMod.blockAuraCurse, "Invasion Debug Block");
         
-        pMod.blockPortal = (BlockHWPortal) (new BlockHWPortal(ModConfigBlockFields.blockIDStart++, Material.portal)).setBlockUnbreakable().setResistance(6000000).setUnlocalizedName("HostileWorlds:hwPortal");
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockPortal = (BlockHWPortal) (new BlockHWPortal(ModConfigBlockFields.blockIDStart++, Material.portal)).setBlockUnbreakable().setResistance(6000000), HostileWorlds.modID + ":hwPortal");
         GameRegistry.registerBlock(pMod.blockPortal, "Hostile Worlds Portal");
         GameRegistry.registerTileEntity(TileEntityHWPortal.class, "tileEntityHWPortal");
         LanguageRegistry.addName(pMod.blockPortal, "Hostile Worlds Portal");
         
-        pMod.blockBloodyCobblestone = (new Block(ModConfigBlockFields.blockIDStart++, Material.rock)).setBlockUnbreakable().setResistance(6000000).setStepSound(Block.soundStoneFootstep).setUnlocalizedName("HostileWorlds:bloodMoss");
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockBloodyCobblestone = (new Block(ModConfigBlockFields.blockIDStart++, Material.rock)).setBlockUnbreakable().setResistance(6000000).setStepSound(Block.soundStoneFootstep), HostileWorlds.modID + ":bloodMoss");
         GameRegistry.registerBlock(pMod.blockBloodyCobblestone, "Bloody Cobblestone");
         LanguageRegistry.addName(pMod.blockBloodyCobblestone, "Bloody Cobblestone");
         
-        pMod.blockRaidingLadder = (new BlockRaidingLadder(ModConfigBlockFields.blockIDStart++, pMod.texBloodCobble, false)).setHardness(0.4F).setStepSound(Block.soundLadderFootstep).setUnlocalizedName("HostileWorlds:raidingLadder");
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockRaidingLadder = (new BlockRaidingLadder(ModConfigBlockFields.blockIDStart++, pMod.texBloodCobble, false)).setHardness(0.4F).setStepSound(Block.soundLadderFootstep), HostileWorlds.modID + ":raidingLadder");
         GameRegistry.registerBlock(pMod.blockRaidingLadder, "Raiding Ladder");
         LanguageRegistry.addName(pMod.blockRaidingLadder, "Raiding Ladder");
         
@@ -78,19 +80,24 @@ public class CommonProxy implements IGuiHandler
         GameRegistry.registerTileEntity(TileEntityRaidingLadderBase.class, "tileEntityRaidingLadderBase");
         LanguageRegistry.addName(pMod.blockRaidingLadderBase, "Raiding Ladder Base");*/
         
-        pMod.blockFactory = (new BlockFactory(ModConfigBlockFields.blockIDStart++)).setHardness(0.4F).setStepSound(Block.soundLadderFootstep).setUnlocalizedName("HostileWorlds:factory").setCreativeTab(CreativeTabs.tabMisc);
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockFactory = (new BlockFactory(ModConfigBlockFields.blockIDStart++)).setHardness(0.4F).setStepSound(Block.soundLadderFootstep).setCreativeTab(CreativeTabs.tabMisc), HostileWorlds.modID + ":factory");
         GameRegistry.registerBlock(pMod.blockFactory, "Factory");
         GameRegistry.registerTileEntity(TileEntityFactory.class, "tileEntityFactory");
         LanguageRegistry.addName(pMod.blockFactory, "Factory");
         
-        pMod.blockItemTurret = (new BlockItemTurret(ModConfigBlockFields.blockIDStart++)).setHardness(50.0F).setResistance(2000.0F).setStepSound(Block.soundLadderFootstep).setUnlocalizedName("HostileWorlds:itemTurret").setCreativeTab(CreativeTabs.tabMisc);
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockItemTurret = (new BlockItemTurret(ModConfigBlockFields.blockIDStart++)).setHardness(50.0F).setResistance(2000.0F).setStepSound(Block.soundLadderFootstep).setCreativeTab(CreativeTabs.tabMisc), HostileWorlds.modID + ":itemTurret");
         GameRegistry.registerBlock(pMod.blockItemTurret, "Item Using Turret");
         GameRegistry.registerTileEntity(TileEntityItemTurret.class, "tileEntityItemTurret");
         LanguageRegistry.addName(pMod.blockItemTurret, "Item Using Turret");
         
-        pMod.itemLaserBeam = (ItemLaserBeam) (new ItemLaserBeam(ModConfigBlockFields.itemIDStart)).setUnlocalizedName("HostileWorlds:itemLaserBeam").setCreativeTab(CreativeTabs.tabMisc);
-        GameRegistry.registerItem(pMod.itemLaserBeam, "Laser Beam");
-        LanguageRegistry.addName(pMod.itemLaserBeam, "Laser Beam");
+        CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockRtsBuilding = (new BlockRTSBuilding(ModConfigBlockFields.blockIDStart++)).setHardness(50.0F).setResistance(2000.0F).setStepSound(Block.soundLadderFootstep).setCreativeTab(CreativeTabs.tabMisc), HostileWorlds.modID + ":rtsBuilding");
+        GameRegistry.registerBlock(pMod.blockRtsBuilding, "RTS Building");
+        GameRegistry.registerTileEntity(TileEntityRTSBuilding.class, "TileEntityRTSBuilding");
+        LanguageRegistry.addName(pMod.blockRtsBuilding, "RTS Building");
+        
+        //CoroUtilItem.setUnlocalizedNameAndTexture(pMod.itemLaserBeam = (ItemLaserBeam) (new ItemLaserBeam(ModConfigBlockFields.itemIDStart)).setCreativeTab(CreativeTabs.tabMisc), HostileWorlds.modID + ":itemLaserBeam");
+        //GameRegistry.registerItem(pMod.itemLaserBeam, "Laser Beam");
+        //LanguageRegistry.addName(pMod.itemLaserBeam, "Laser Beam");
         
         GameRegistry.addRecipe(new ItemStack(pMod.blockItemTurret, 1), new Object[] {" B ", "RCR", "CCC", 'B', Item.bow, 'R', Block.blockRedstone, 'C', Block.cobblestoneMossy});
         
@@ -108,13 +115,14 @@ public class CommonProxy implements IGuiHandler
         
         EntityRegistry.registerModEntity(EntityComradeImpl.class, "EntityComrade", entityId++, pMod, 128, 1, true);
         
-        
         EntityRegistry.registerModEntity(EntityMeteorite.class, "EntityMeteorite", entityId++, pMod, 512, 1, true);
         EntityRegistry.registerModEntity(EntityWormSand.class, "EntityWormSand", entityId++, pMod, 128, 1, true);
         EntityRegistry.registerModEntity(EntityWormFire.class, "EntityWormFire", entityId++, pMod, 128, 1, true);
         
         EntityRegistry.registerModEntity(MovingBlock.class, "EntityDebrisBlock", entityId++, pMod, 512, 1, true);
         EntityRegistry.registerModEntity(EntityItemTurretTop.class, "EntityItemTurretTop", entityId++, pMod, 128, 1, true);
+
+        EntityRegistry.registerModEntity(EntityRtsWorker.class, "EntityRtsWorker", entityId++, pMod, 128, 1, true);
     	//EntityRegistry.registerModEntity(EntityScent.class, "EntityScent", entityId++, pMod, 32, 20, false);
     	
     	
@@ -123,37 +131,6 @@ public class CommonProxy implements IGuiHandler
 		//EntityRegistry.registerGlobalEntityID(c_w_MovingBlockStructure.class, "c_w_MovingBlockStructure", entityId-1,0,0);
         //EntityRegistry.registerModEntity(EntityKoaManly.class, "Koa Man", entityId++, mod, 64, 1, true);
         //GameRegistry.registerTileEntity(TileEntityTSiren.class, "c_w_TileEntityTSiren");
-    }
-
-    public int getUniqueTextureLoc()
-    {
-        return 0;
-    }
-
-    public int getArmorNumber(String type)
-    {
-        return 0;
-    }
-
-    public int getUniqueTropicraftLiquidID()
-    {
-        return 0;
-    }
-
-    public void loadSounds()
-    {
-    }
-
-    public void registerRenderInformation()
-    {
-    }
-
-    public void registerTileEntitySpecialRenderer()
-    {
-    }
-
-    public void displayRecordGui(String displayText)
-    {
     }
 
     public World getClientWorld()
@@ -191,19 +168,4 @@ public class CommonProxy implements IGuiHandler
     {
         return null;
     }
-
-    public void weatherDbg()
-    {
-        // TODO Auto-generated method stub
-    }
-
-    public void windDbg()
-    {
-        // TODO Auto-generated method stub
-    }
-    
-    public Entity getEntByID(int id) {
-		System.out.println("common getEntByID being used, this is bad");
-		return null;
-	}
 }

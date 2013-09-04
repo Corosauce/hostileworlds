@@ -1,9 +1,7 @@
 package hostileworlds;
 
-import extendedrenderer.particle.ParticleRegistry;
 import hostileworlds.entity.monster.ZombieMiner;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed;

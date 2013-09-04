@@ -30,6 +30,8 @@ import hostileworlds.entity.monster.ZombieClimber;
 import hostileworlds.entity.monster.ZombieHungry;
 import hostileworlds.entity.monster.ZombieMiner;
 import hostileworlds.entity.particle.EntityMeteorTrailFX;
+import hostileworlds.rts.entity.EntityRtsBase;
+import hostileworlds.rts.entity.client.RenderRtsEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.ModLoader;
 import net.minecraftforge.client.MinecraftForgeClient;
@@ -66,6 +68,7 @@ public class ClientProxy extends CommonProxy
         RenderingRegistry.registerEntityRenderingHandler(ZombieMiner.class, new RenderHWZombie());
         RenderingRegistry.registerEntityRenderingHandler(ZombieBlockWielder.class, new RenderHWZombie());
         RenderingRegistry.registerEntityRenderingHandler(EntityComradeImpl.class, new RenderComrade());
+        RenderingRegistry.registerEntityRenderingHandler(EntityRtsBase.class, new RenderRtsEntity());
         
         RenderingRegistry.registerEntityRenderingHandler(EntityMeteorite.class, new RenderMeteorite());
         RenderingRegistry.registerEntityRenderingHandler(EntityWormSand.class, new RenderWormSand(new ModelWormSand(), 0.5F));
@@ -78,28 +81,7 @@ public class ClientProxy extends CommonProxy
         
         TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
         
-        MinecraftForgeClient.registerItemRenderer(HostileWorlds.itemLaserBeam.itemID, new WeaponRenderer());
+        //MinecraftForgeClient.registerItemRenderer(HostileWorlds.itemLaserBeam.itemID, new WeaponRenderer());
         
-    }
-    
-    @Override
-    public int getUniqueTextureLoc()
-    {
-        return RenderingRegistry.getUniqueTextureIndex("/terrain.png");
-    }
-
-    /**
-     * This is for registering armor types, like ModLoader.addArmor used to do
-     */
-    public int getArmorNumber(String type)
-    {
-        return RenderingRegistry.addNewArmourRendererPrefix(type);
-    }
-
-    @Override
-    public void displayRecordGui(String displayText)
-    {
-        //System.out.println("displayRecordGui");
-        ModLoader.getMinecraftInstance().ingameGUI.setRecordPlayingMessage(displayText);
     }
 }

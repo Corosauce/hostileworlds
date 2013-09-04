@@ -10,9 +10,8 @@ import java.util.Random;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityFallingSand;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -37,7 +36,7 @@ public class Zombie extends EntityInvader implements IAdvPF {
 		this.setCurrentItemOrArmor(0, new ItemStack(Item.swordIron));
 		this.setCurrentItemOrArmor(4, new ItemStack(Item.helmetIron));
 		
-		agent.setMoveSpeed(0.30F);
+		//agent.setMoveSpeed(0.30F);
 		agent.maxReach_Melee = 1.3F;
 		
 		
@@ -153,7 +152,7 @@ public class Zombie extends EntityInvader implements IAdvPF {
 		
 		/* || isNearWall(boundingBox) || isOnLadder()*/
 		if (!worldObj.isRemote && stackMode) {
-			List<EntityLiving> var2 = this.worldObj.getEntitiesWithinAABB(EntityLiving.class, this.boundingBox.expand(rangeBox, 2D, rangeBox));
+			List<EntityLivingBase> var2 = this.worldObj.getEntitiesWithinAABB(EntityLivingBase.class, this.boundingBox.expand(rangeBox, 2D, rangeBox));
 			
 			Random rand = new Random();
 			Entity ent = null;

@@ -9,11 +9,11 @@ import hostileworlds.entity.EntityInvader;
 import java.util.HashSet;
 import java.util.Set;
 
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.ChunkCoordIntPair;
 import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 
@@ -30,8 +30,6 @@ public class ZombieMiner extends EntityInvader implements IChunkLoader {
 		
 		this.setCurrentItemOrArmor(0, new ItemStack(Item.pickaxeIron));
 		this.setCurrentItemOrArmor(4, new ItemStack(Item.helmetIron));
-		
-		agent.setMoveSpeed(0.28F);
 		agent.shouldFixBadYPathing = false;
 		entityCollisionReduction = 1F;
 		agent.collideResistClose = 1F;
@@ -50,10 +48,11 @@ public class ZombieMiner extends EntityInvader implements IChunkLoader {
 	}
 	
 	@Override
-	public int getMaxHealth() {
-		return 50;
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(50.0D);
 	}
-
+	
 	@Override
 	public void setChunkTicket(Ticket parTicket) {
 		if (ticket != null && parTicket != ticket) {

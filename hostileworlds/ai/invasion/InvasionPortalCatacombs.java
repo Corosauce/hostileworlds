@@ -3,7 +3,6 @@ package hostileworlds.ai.invasion;
 import hostileworlds.HostileWorlds;
 import hostileworlds.ServerTickHandler;
 import hostileworlds.ai.WorldDirector;
-import hostileworlds.block.TileEntityHWPortal;
 import hostileworlds.config.ModConfigFields;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;

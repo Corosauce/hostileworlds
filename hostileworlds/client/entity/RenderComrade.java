@@ -1,11 +1,13 @@
 package hostileworlds.client.entity;
 
+import hostileworlds.HostileWorlds;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
@@ -20,12 +22,17 @@ public class RenderComrade extends RenderBiped
     {
         super(new ModelBiped(0.0F), 0.5F);
     }
+
+	@Override
+	protected ResourceLocation func_110775_a(Entity entity) {
+		return new ResourceLocation(HostileWorlds.modID + ":textures/entities/comrade/skin0.png");
+	}
     
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
     	super.doRender(par1Entity, par2, par4, par6, par8, par9);
     	
-    	if (!(par1Entity instanceof ICoroAI) || !(par1Entity instanceof EntityLiving)) return;
+    	if (!(par1Entity instanceof ICoroAI) || !(par1Entity instanceof EntityLivingBase)) return;
     	
     	if (renderManager.livingPlayer.getDistanceToEntity(par1Entity) > 12) return;
     	
@@ -35,8 +42,8 @@ public class RenderComrade extends RenderBiped
     	
     	float scale = 0.02F;
     	float yOffset = 0.15F;
-    	int health = par1Entity.getDataWatcher().getWatchableObjectInt(23);
-    	int healthMax = ((EntityLiving)par1Entity).getMaxHealth();
+    	float health = ((EntityLivingBase)par1Entity).func_110143_aJ();//par1Entity.getDataWatcher().getWatchableObjectInt(23);
+    	float healthMax = ((EntityLivingBase)par1Entity).func_110138_aP();
     	String s = "hue";
     	
     	FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
@@ -68,7 +75,7 @@ public class RenderComrade extends RenderBiped
         tessellator.addVertex((double)(width), 0.0D, 0.0D);
         tessellator.draw();
         
-        width = 30 * health / healthMax;
+        width = (int) (30 * health / healthMax);
         
         //green health
         tessellator.startDrawingQuads();

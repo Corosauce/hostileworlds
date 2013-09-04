@@ -33,6 +33,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -999,7 +1000,7 @@ public class WorldDirector implements IPFCallback {
 		String mobToSpawnLeader = "InvaderZombieMiner";
 		String mobToSpawn = "InvaderZombie";
 		
-		EntityLiving leader = null;
+		EntityLivingBase leader = null;
 		
 		//MCPC+ fix
 		if (ModConfigFields.warpInvadersCloser) {
@@ -1051,7 +1052,7 @@ public class WorldDirector implements IPFCallback {
             	double var5 = (double)spawnCoord.posX + (world.rand.nextDouble() - world.rand.nextDouble()) * (double)range;
                 double var7 = (double)(spawnCoord.posY - 1 + world.rand.nextInt(6) - 3);
                 double var9 = (double)spawnCoord.posZ + (world.rand.nextDouble() - world.rand.nextDouble()) * (double)range;
-                //EntityLiving var11 = var13 instanceof EntityLiving ? (EntityLiving)var13 : null;
+                //EntityLivingBase var11 = var13 instanceof EntityLivingBase ? (EntityLivingBase)var13 : null;
                 ent2.setLocationAndAngles(var5, var7, var9, ent2.worldObj.rand.nextFloat() * 360.0F, 0.0F);
 
                 if (ent2.getCanSpawnHere())

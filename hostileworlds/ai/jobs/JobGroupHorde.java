@@ -13,6 +13,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChunkCoordinates;
 import CoroAI.componentAI.ICoroAI;
@@ -33,8 +34,8 @@ public class JobGroupHorde extends JobBase {
 	
 	public ChunkCoordinates attackCoord;
 	
-	public ArrayList<EntityLiving> groupMembers;
-	public EntityLiving leader = null;
+	public ArrayList<EntityLivingBase> groupMembers;
+	public EntityLivingBase leader = null;
 	
 	public int maxSize = 20;
 	public int anger;
@@ -118,7 +119,7 @@ public class JobGroupHorde extends JobBase {
 				List<Entity> ents = ent.worldObj.getEntitiesWithinAABBExcludingEntity(ent, ent.boundingBox.expand(findLeaderRange, findLeaderRange, findLeaderRange));
 				for (int i = 0; i < ents.size(); i++) {
 					if (ents.get(i) instanceof ZombieMiner && !ents.get(i).isDead) {
-						leader = (EntityLiving) ents.get(i);
+						leader = (EntityLivingBase) ents.get(i);
 						break;
 					}
 				}
@@ -137,7 +138,7 @@ public class JobGroupHorde extends JobBase {
 						if (ai.activeFormation.leaderEnt instanceof ZombieMiner) {
 							
 						} else {
-							ai.activeFormation.leaderEnt = leader;
+							ai.activeFormation.leaderEnt = (EntityLiving) leader;
 						}
 						
 						/*if (((ICoroAI) leader).getAIAgent().isInFormation()) {
@@ -173,7 +174,7 @@ public class JobGroupHorde extends JobBase {
 					} else if (dist > huntRange) {
 						
 						//entInt.getAIAgent().entityToAttack = null;
-							if (this.ent.getNavigator().noPath() && ent.onGround) {
+							if (this.ent.getNavigator().noPath() && ent.onGround && ent.worldObj.getWorldTime() % 10 == 0) {
 								entInt.getAIAgent().walkTo(ent, (int)leader.posX, (int)leader.posY, (int)leader.posZ, 64, 600, 1);
 								//System.out.println("derp222222222");
 							}
@@ -277,7 +278,7 @@ public class JobGroupHorde extends JobBase {
 		// TODO Auto-generated method stub
 		super.onTickFormation();
 		if (isInFormation() && leader != null) {
-			if (((ICoroAI)leader).getAIAgent().jobMan.getPrimaryJob().state == EnumJobState.W3) {
+			if (((ICoroAI)leader).getAIAgent() != null && ((ICoroAI)leader).getAIAgent().jobMan.getPrimaryJob().state == EnumJobState.W3) {
 				//System.out.println("no!");
 				ent.entityCollisionReduction = 1F;				
 			} else {

@@ -3,6 +3,7 @@ package hostileworlds.entity.comrade;
 import hostileworlds.block.TileEntityFactory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -35,14 +36,12 @@ public class EntityComradeBase extends EntityLiving implements ICoroAI, IInvUser
 	public EntityComradeBase(World par1World) {
 		super(par1World);
 		//texture = "/tropicalmod/test.png";
-		this.texture = "/mods/ZombieCraft/textures/entities/comrade/skin0.png";
+		//this.texture = "/mods/ZombieCraft/textures/entities/comrade/skin0.png";
 		//setSize(0.6F, 2F);
 		
 		//agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
 		agent.jobMan.addPrimaryJob(new JobHunt(agent.jobMan));
-		this.health = getMaxHealth();
-		agent.setMoveSpeed(0.35F);
-		agent.fleeSpeed = 0.4F;
+		
 		agent.PFRangePathing = 128;
 		//agent.entInv.shouldLookForPickups = true;
 		//agent.entInv.grabItems = true;
@@ -53,6 +52,15 @@ public class EntityComradeBase extends EntityLiving implements ICoroAI, IInvUser
 		
 		agent.collideResistClose = agent.collideResistFormation = agent.collideResistPathing = entityCollisionReduction = 0.9F;
 		
+	}
+	
+	@Override
+	protected void func_110147_ax() {
+		super.func_110147_ax();
+		agent.setSpeedFleeAdditive(0.1F); //additive
+		agent.setSpeedNormalBase(0.6F);
+		agent.applyEntityAttributes();
+        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
 	}
 
 	@Override
@@ -127,11 +135,6 @@ public class EntityComradeBase extends EntityLiving implements ICoroAI, IInvUser
     {
         return true;
     }
-
-	@Override
-	public int getMaxHealth() {
-		return 40;
-	}
 
 	@Override
 	public AIAgent getAIAgent() {
@@ -218,7 +221,7 @@ public class EntityComradeBase extends EntityLiving implements ICoroAI, IInvUser
 		agent.onLivingUpdateTick();
 		
 		//temp
-		agent.meleeUseRightClick = false;
+		//agent.meleeUseRightClick = false;
 		
 		//tameify!
 		if (!worldObj.isRemote && agent.jobMan.getPrimaryJob().tamable.owner.equals("")) {

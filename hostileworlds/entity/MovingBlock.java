@@ -1,21 +1,20 @@
 package hostileworlds.entity;
 
-import java.util.List;
-
 import hostileworlds.HostileWorlds;
 import hostileworlds.entity.monster.ZombieBlockWielder;
 import hostileworlds.entity.particle.EntityMeteorTrailFX;
+
+import java.util.List;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-
-import CoroAI.c_CoroAIUtil;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
@@ -36,7 +35,7 @@ public class MovingBlock extends Entity implements IEntityAdditionalSpawnData
 	public int blockifyDelay = 30;
 	
 	//targeting
-	public EntityLiving target;
+	public EntityLivingBase target;
 	public float targetTillDist = -1;
 	public double targPrevPosX;
 	public double targPrevPosY;
@@ -157,7 +156,7 @@ public class MovingBlock extends Entity implements IEntityAdditionalSpawnData
 	        {
 	            Entity var10 = (Entity)entities.get(i);
 	            
-	            if (var10 != null && !var10.isDead && var10 instanceof EntityLiving && !(var10 instanceof ZombieBlockWielder) && !(var10 instanceof EntityWorm)) {
+	            if (var10 != null && !var10.isDead && var10 instanceof EntityLivingBase && !(var10 instanceof ZombieBlockWielder) && !(var10 instanceof EntityWorm)) {
 	            	var10.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, this), 4);
 	            }
 	        }
@@ -188,11 +187,12 @@ public class MovingBlock extends Entity implements IEntityAdditionalSpawnData
     	worldObj.setBlock(x, y, z, blockID);
     	setDead();
     }
-
-    public boolean attackEntityFrom(Entity var1, int var2)
-    {
+    
+    //this is probably never called unless something specifically handles this block, since its not a standard living entity that can take damage
+    @Override
+    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
     	setDead();
-        return true;
+    	return super.attackEntityFrom(par1DamageSource, par2);
     }
     
     @SideOnly(Side.CLIENT)
