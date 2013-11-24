@@ -24,7 +24,11 @@ public class RenderComrade extends RenderBiped
     }
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return new ResourceLocation(HostileWorlds.modID + ":textures/entities/comrade/skin0.png");
 	}
     
@@ -42,8 +46,8 @@ public class RenderComrade extends RenderBiped
     	
     	float scale = 0.02F;
     	float yOffset = 0.15F;
-    	float health = ((EntityLivingBase)par1Entity).func_110143_aJ();//par1Entity.getDataWatcher().getWatchableObjectInt(23);
-    	float healthMax = ((EntityLivingBase)par1Entity).func_110138_aP();
+    	float health = ((EntityLivingBase)par1Entity).getHealth();//par1Entity.getDataWatcher().getWatchableObjectInt(23);
+    	float healthMax = ((EntityLivingBase)par1Entity).getMaxHealth();
     	String s = "hue";
     	
     	FontRenderer fontrenderer = this.getFontRendererFromRenderManager();

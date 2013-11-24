@@ -22,6 +22,7 @@ import hostileworlds.entity.EntityMeteorite;
 import hostileworlds.entity.EntityTestAI;
 import hostileworlds.entity.MovingBlock;
 import hostileworlds.entity.comrade.EntityComradeImpl;
+import hostileworlds.entity.monster.EntityBlockMonster;
 import hostileworlds.entity.monster.EntityWormFire;
 import hostileworlds.entity.monster.EntityWormSand;
 import hostileworlds.entity.monster.Zombie;
@@ -78,6 +79,7 @@ public class ClientProxy extends CommonProxy
         
         //For particles as weather effects
         RenderingRegistry.registerEntityRenderingHandler(EntityMeteorTrailFX.class, new RenderNull());
+        RenderingRegistry.registerEntityRenderingHandler(EntityBlockMonster.class, new RenderNull());
         
         TickRegistry.registerTickHandler(new ClientTickHandler(), Side.CLIENT);
         

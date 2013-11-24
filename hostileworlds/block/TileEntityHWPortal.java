@@ -280,7 +280,7 @@ public class TileEntityHWPortal extends TileEntity
 	}
 	
 	@SideOnly(Side.CLIENT)
-    public double func_82115_m()
+    public double getMaxRenderDistanceSquared()
     {
         return 64*64;
     }

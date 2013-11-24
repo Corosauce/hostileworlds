@@ -46,7 +46,7 @@ public class AreaScanner implements Runnable {
 			worldDirector.areaScanCompleteCallback();
 			//Thread.sleep(1000);
 		} catch (Exception ex) {
-			System.out.println("Area scanner aborted due to exception.");
+			//System.out.println("Area scanner aborted due to exception.");
 			worldDirector.areaScanCompleteCallback();
 			//ex.printStackTrace();
 		}

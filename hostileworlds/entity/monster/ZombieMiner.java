@@ -48,9 +48,9 @@ public class ZombieMiner extends EntityInvader implements IChunkLoader {
 	}
 	
 	@Override
-	protected void func_110147_ax() {
-		super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(50.0D);
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(50.0D);
 	}
 	
 	@Override

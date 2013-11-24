@@ -70,12 +70,12 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 	}
 
 	@Override
-	protected void func_110147_ax() {
-		super.func_110147_ax();
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
 		agent.setSpeedFleeAdditive(0.1F);
 		agent.setSpeedNormalBase(0.6F);
 		agent.applyEntityAttributes();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(40.0D);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 	public void updateAITasks() {
 		if (building) return;
 		agent.updateAITasks();
-		//this.func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(1D);
+		//this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(1D);
 	}
 	
 	@Override
@@ -145,7 +145,7 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 	}
 	
 	@Override
-	public EntityLivingData func_110161_a(EntityLivingData par1EntityLivingBaseData)
+	public EntityLivingData onSpawnWithEgg(EntityLivingData par1EntityLivingBaseData)
     {
 		//make it try to register with team 0 if has no team because it was spawned outside standard rts methods
 		if (teamID == -1) {
@@ -153,7 +153,7 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 			System.out.println("Rts Unit has no team, trying to join team 0");
 			RtsEngine.teams.registerWithTeam(teamID, unitType, this);
 		}
-		return super.func_110161_a(par1EntityLivingBaseData);
+		return super.onSpawnWithEgg(par1EntityLivingBaseData);
     }
 	
 	@Override
@@ -222,7 +222,8 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 		return DiplomacyHelper.shouldTargetEnt(this, ent);
 	}
 	
-	public boolean attackEntityFrom(DamageSource par1DamageSource, int par2)
+	@Override
+	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
     {
 		if (!worldObj.isRemote && (agent == null || agent.jobMan == null)) return false;
 		//TEMP INTERACT WAY
@@ -240,7 +241,7 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 		}*/
 		
 		
-		if (agent.jobMan.getPrimaryJob().hookHit(par1DamageSource, par2)) {
+		if (agent.jobMan.getPrimaryJob().hookHit(par1DamageSource, (int)par2)) {
 			if (par1DamageSource != DamageSource.inWall) {
 				return super.attackEntityFrom(par1DamageSource, par2);
 			} else {
@@ -275,8 +276,8 @@ public class EntityRtsBase extends EntityLiving implements ICoroAI {
 		} else {
 			getDataWatcher().updateObject(25, teamID);
 			//System.out.println(agent.moveSpeed);
-			//System.out.println(func_110148_a(SharedMonsterAttributes.field_111263_d).func_111126_e());
-			//func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(1);
+			//System.out.println(getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
+			//getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(1);
 			
 		}
 		

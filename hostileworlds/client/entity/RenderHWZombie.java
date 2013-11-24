@@ -24,14 +24,18 @@ public class RenderHWZombie extends RenderZombie
     }
 
 	@Override
-	protected ResourceLocation func_110775_a(Entity entity) {
+
+	/**
+	 * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
+	 */
+	protected ResourceLocation getEntityTexture(Entity entity) {
 		return new ResourceLocation("textures/entity/zombie/zombie.png");
 	}
     
     public void doRender(Entity par1Entity, double par2, double par4, double par6, float par8, float par9)
     {
     	if (par1Entity instanceof IBossDisplayData) {
-    		BossStatus.func_82824_a((IBossDisplayData)par1Entity, true);
+    		BossStatus.setBossStatus((IBossDisplayData)par1Entity, true);
     	}
     	super.doRender(par1Entity, par2, par4, par6, par8, par9);
     	

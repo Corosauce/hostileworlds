@@ -55,7 +55,7 @@ public class RenderHWPortal extends TileEntitySpecialRenderer
 
             if (var14 == 0)
             {
-            	Minecraft.getMinecraft().renderEngine.func_110577_a(resTunnel);
+            	Minecraft.getMinecraft().renderEngine.bindTexture(resTunnel);
                 var17 = 0.1F;
                 var15 = 65.0F;
                 var16 = 0.125F;
@@ -65,7 +65,7 @@ public class RenderHWPortal extends TileEntitySpecialRenderer
 
             if (var14 == 1)
             {
-            	Minecraft.getMinecraft().renderEngine.func_110577_a(resField);
+            	Minecraft.getMinecraft().renderEngine.bindTexture(resField);
                 //this.bindTextureByName("/misc/particlefield.png");
                 GL11.glEnable(GL11.GL_BLEND);
                 GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);

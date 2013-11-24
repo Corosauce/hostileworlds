@@ -45,12 +45,12 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
 	}
 	
 	@Override
-	protected void func_110147_ax() {
-		super.func_110147_ax();
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
 		agent.setSpeedFleeAdditive(0.1F);
 		agent.setSpeedNormalBase(0.6F);
 		agent.applyEntityAttributes();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(20.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(20.0D);
 	}
 	
 	@Override
@@ -108,12 +108,12 @@ public class EntityInvader extends EntityZombie implements ICoroAI {
 		
 		if (this.getCurrentItemOrArmor(0) != null) {
 			
-			calcDamage = (float)this.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
+			calcDamage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 			
-			System.out.println("attackMelee calcDamage val: " + calcDamage);
+			//System.out.println("attackMelee calcDamage val: " + calcDamage);
 			//calcDamage = this.getCurrentItemOrArmor(0).getItem().getDamageVsEntity(ent);
 			//this might cast crash, how to use multimap?
-			//calcDamage = (float) ((BaseAttribute) this.getCurrentItemOrArmor(0).func_111283_C().get("generic.attackDamage")).func_111110_b();
+			//calcDamage = (float) ((BaseAttribute) this.getCurrentItemOrArmor(0).getAttributeModifiers().get("generic.attackDamage")).getDefaultValue();
 		}
 		
 		calcDamage *= 0.75F;

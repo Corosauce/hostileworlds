@@ -96,9 +96,9 @@ public class EntityWormFire extends EntityWorm {
 	}
 	
 	@Override
-	protected void func_110147_ax() {
-		super.func_110147_ax();
-        this.func_110148_a(SharedMonsterAttributes.field_111267_a).func_111128_a(maxHealth);
+	protected void applyEntityAttributes() {
+		super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(maxHealth);
 	}
 	
 	@Override
@@ -112,7 +112,7 @@ public class EntityWormFire extends EntityWorm {
 	public boolean attackEntityFrom(DamageSource par1DamageSource, float par2) {
 		if (par1DamageSource == DamageSource.cactus) {
 			System.out.println("boom");
-			setEntityHealth(func_110143_aJ() -1);
+			setHealth(getHealth() -1);
 		}
 		return super.attackEntityFrom(par1DamageSource, par2);
 	}
@@ -181,9 +181,9 @@ public class EntityWormFire extends EntityWorm {
 				}
 			}
 			
-			if (func_110143_aJ() != lastHealth) {
-				float diff = lastHealth - func_110143_aJ();
-				lastHealth = func_110143_aJ();
+			if (getHealth() != lastHealth) {
+				float diff = lastHealth - getHealth();
+				lastHealth = getHealth();
 				for (int j = nodes.size()-1; j >= 0; j--) {
 					
 					List<MovingBlock> blocks = nodes.get(j).blocks;

@@ -11,6 +11,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import CoroAI.componentAI.IAdvPF;
+import CoroAI.componentAI.ICoroAI;
 
 public class ZombieClimber extends EntityInvader implements IAdvPF {
 
@@ -99,6 +100,13 @@ public class ZombieClimber extends EntityInvader implements IAdvPF {
 			}
 			
 		}
+	}
+
+	@Override
+	public int overrideBlockPathOffset(ICoroAI ent, int id, int meta, int x,
+			int y, int z) {
+		// TODO Auto-generated method stub
+		return -66;
 	}
 
 }

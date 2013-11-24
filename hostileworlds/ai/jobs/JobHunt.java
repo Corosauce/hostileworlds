@@ -115,7 +115,7 @@ public class JobHunt extends JobBase {
 			}*/
 			
 		//}
-		ent.prevHealth = ent.func_110143_aJ();
+		ent.prevHealth = ent.getHealth();
 	}
 	
 	
@@ -137,7 +137,7 @@ public class JobHunt extends JobBase {
 	}
 	
 	public boolean sanityCheckHelp(Entity caller, Entity target) {
-		if (ent.func_110143_aJ() < 10) {
+		if (ent.getHealth() < 10) {
 			return false;
 		}
 		
@@ -153,7 +153,7 @@ public class JobHunt extends JobBase {
 	}
 	
 	public boolean sanityCheck(Entity target) {
-		if (ent.func_110143_aJ() < 6) {
+		if (ent.getHealth() < 6) {
 			return false;
 		}
 		

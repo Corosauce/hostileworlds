@@ -280,7 +280,7 @@ public class WorldEvent {
 				
 				//initial removal of current weap attrib
 				ItemStack itemstack = entP.inventory.getCurrentItem();
-				if (itemstack != null) entP.func_110140_aT().func_111148_a(itemstack.func_111283_C());
+				if (itemstack != null) entP.getAttributeMap().removeAttributeModifiers(itemstack.getAttributeModifiers());
 				
 				for (int slotIndex = 0; slotIndex < entP.inventory.mainInventory.length; slotIndex++) {
 					if (entP.inventory.mainInventory[slotIndex] != null) {
@@ -291,11 +291,11 @@ public class WorldEvent {
 	                    if (itemstack != null)
 	                    {
 	                    	//add attrib
-	                    	entP.func_110140_aT().func_111147_b(itemstack.func_111283_C());
+	                    	entP.getAttributeMap().applyAttributeModifiers(itemstack.getAttributeModifiers());
 	                    }
 	                    
 	                    //get val
-	                    float f = (float)entP.func_110148_a(SharedMonsterAttributes.field_111264_e).func_111126_e();
+	                    float f = (float)entP.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 	                    float f1 = 0.0F;
 
 	                    if (entP instanceof EntityLivingBase)
@@ -310,7 +310,7 @@ public class WorldEvent {
 						if (itemstack != null)
 	                    {
 							//remove attrib
-							entP.func_110140_aT().func_111148_a(itemstack.func_111283_C());
+							entP.getAttributeMap().removeAttributeModifiers(itemstack.getAttributeModifiers());
 	                    }
 						
 	                    if (dmg > bestWeaponValue) {
@@ -321,7 +321,7 @@ public class WorldEvent {
 				
 				//readd of current weapon attrib
 				itemstack = entP.inventory.getCurrentItem();
-				if (itemstack != null) entP.func_110140_aT().func_111147_b(itemstack.func_111283_C());
+				if (itemstack != null) entP.getAttributeMap().applyAttributeModifiers(itemstack.getAttributeModifiers());
 				
 				//System.out.println("calculated bestWeaponValue: " + bestWeaponValue);
 				WorldDirector.getPlayerNBT(entP.username).setInteger("HWPlayerRating", (int)(armorValue + bestWeaponValue + (hasGlove ? 20 : 0)));

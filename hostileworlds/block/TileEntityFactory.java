@@ -391,7 +391,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
     }
 
 	@Override
-	public void handleClientSentNBT(NBTTagCompound par1nbtTagCompound) {
+	public void handleClientSentNBT(String parUsername, NBTTagCompound par1nbtTagCompound) {
 		
 		if (entInt == null && par1nbtTagCompound.hasKey("buildStart")) {
 			buildStart();
@@ -418,7 +418,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	
 	@Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-    	this.readFromNBTPacket(pkt.customParam1);
+    	this.readFromNBTPacket(pkt.data);
     }
     
     @Override
@@ -479,7 +479,7 @@ public class TileEntityFactory extends TileEntityPowerUser implements IInventory
 	}
 
 	@Override
-	public void handleClientSentDataWatcherList(List parList) {
+	public void handleClientSentDataWatcherList(String parUsername, List parList) {
 		// TODO Auto-generated method stub
 		
 	}

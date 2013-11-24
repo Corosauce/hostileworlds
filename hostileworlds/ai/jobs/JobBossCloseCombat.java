@@ -47,7 +47,7 @@ public class JobBossCloseCombat extends JobBase {
 		}
 		
 		if (!spawnedWorm) {
-			if (ent.func_110143_aJ() < ent.func_110138_aP() / 2 && ent.func_110143_aJ() != 0) {
+			if (ent.getHealth() < ent.getMaxHealth() / 2 && ent.getHealth() != 0) {
 				spawnedWorm = true;
 				EntityWormFire worm = new EntityWormFire(ent.worldObj);
 				worm.setPosition(ent.posX, ent.posY + 40, ent.posZ);

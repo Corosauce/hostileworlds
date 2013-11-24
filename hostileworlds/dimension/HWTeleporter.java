@@ -161,7 +161,7 @@ public class HWTeleporter extends Teleporter
     	
     	/*if (!this.placeInExistingPortal(par2Entity, par3, par5, par7, par9) && par2Entity instanceof EntityPlayer)
         {
-			this.func_85188_a(par2Entity);
+			this.makePortal(par2Entity);
             this.placeInExistingPortal(par2Entity, par3, par5, par7, par9);
         }*/
     	

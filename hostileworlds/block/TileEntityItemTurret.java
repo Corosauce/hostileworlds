@@ -436,7 +436,7 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
     }
 
 	@Override
-	public void handleClientSentNBT(NBTTagCompound par1nbtTagCompound) {
+	public void handleClientSentNBT(String parUsername, NBTTagCompound par1nbtTagCompound) {
 		//technically i should be doing some sanity checking here
 		readFromNBTPacket(par1nbtTagCompound);
 		sync();
@@ -463,7 +463,7 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 	
 	@Override
     public void onDataPacket(INetworkManager net, Packet132TileEntityData pkt) {
-    	this.readFromNBTPacket(pkt.customParam1);
+    	this.readFromNBTPacket(pkt.data);
     }
     
     @Override
@@ -569,7 +569,7 @@ public class TileEntityItemTurret extends TileEntity implements IInventory, IEne
 	}
 
 	@Override
-	public void handleClientSentDataWatcherList(List parList) {
+	public void handleClientSentDataWatcherList(String parUsername, List parList) {
 		// TODO Auto-generated method stub
 		
 	}

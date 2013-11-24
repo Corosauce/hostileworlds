@@ -76,6 +76,8 @@ public class CommandHW extends CommandBase {
 						for (int i = 0; i < count; i++) {
 							Entity ent = EntityList.createEntityByName(prefix + mobToSpawn, player.worldObj);
 							
+							if (ent == null) ent = EntityList.createEntityByName(mobToSpawn, player.worldObj);
+							
 							if (ent != null) {
 								
 								double dist = 4D;
@@ -140,7 +142,7 @@ public class CommandHW extends CommandBase {
 							
 						}
 						WorldDirector.getPlayerNBT(username).setInteger("numOfWavesSpawned", val);
-						var1.sendChatToPlayer(ChatMessageComponent.func_111077_e(username + "s waveCount set to " + val));
+						var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey(username + "s waveCount set to " + val));
 					} else if (var2[0].equalsIgnoreCase("boss")) {
 						if (var2[1].equalsIgnoreCase("reset")) {
 							if (player.dimension != 0) {
@@ -154,9 +156,9 @@ public class CommandHW extends CommandBase {
 						if (var2.length > 1) {
 							Object obj = ConfigMod.getField(getCommandName(), var2[1]);
 							if (obj != null) {
-								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e(var2[1] + " = " + obj));
+								var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey(var2[1] + " = " + obj));
 							} else {
-								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("failed to get " + var2[1]));
+								var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("failed to get " + var2[1]));
 							}
 						}
 					} else if (var2[0].equalsIgnoreCase("set")) {
@@ -165,12 +167,12 @@ public class CommandHW extends CommandBase {
 							String val = "";
 							for (int i = 2; i < var2.length; i++) val += var2[i] + (i != var2.length-1 ? " " : "");
 							if (ConfigMod.updateField(getCommandName(), var2[1], val)) {
-								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("set " + var2[1] + " to " + val));
+								var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("set " + var2[1] + " to " + val));
 							} else {
-								var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("failed to set " + var2[1]));
+								var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("failed to set " + var2[1]));
 							}
 						} else {
-							var1.sendChatToPlayer(ChatMessageComponent.func_111077_e("set requires 3 parameters"));
+							var1.sendChatToPlayer(ChatMessageComponent.createFromTranslationKey("set requires 3 parameters"));
 						}
 					} else if (var2[0].equalsIgnoreCase("derp")) {
 						int size = 96;

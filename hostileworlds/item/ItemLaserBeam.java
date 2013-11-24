@@ -100,7 +100,7 @@ public class ItemLaserBeam extends Item
     public void fixNBTCompare() {
     	
     	//c_CoroAIUtil.setPrivateValueSRGMCP(PlayerControllerMP.class, Minecraft.getMinecraft().playerController, "field_85183_f", "field_85183_f", null);
-    	//c_CoroAIUtil.setPrivateValueSRGMCP(ItemRenderer.class, Minecraft.getMinecraft().entityRenderer.itemRenderer, "field_78454_c", "equippedProgress", 0.85F);
+    	//c_CoroAIUtil.setPrivateValueSRGMCP(ItemRenderer.class, Minecraft.getMinecraft().entityRenderer.itemRenderer, "equippedProgress", "equippedProgress", 0.85F);
     }
     
     @SideOnly(Side.CLIENT)

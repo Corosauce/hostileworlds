@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import CoroAI.componentAI.IAdvPF;
+import CoroAI.componentAI.ICoroAI;
 import CoroAI.componentAI.jobSystem.JobFormation;
 
 public class Zombie extends EntityInvader implements IAdvPF {
@@ -282,7 +283,10 @@ public class Zombie extends EntityInvader implements IAdvPF {
 		}
 		
 	}
-	
-	
 
+	@Override
+	public int overrideBlockPathOffset(ICoroAI ent, int id, int meta, int x,
+			int y, int z) {
+		return -66;
+	}
 }

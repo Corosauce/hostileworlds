@@ -314,6 +314,8 @@ public class EntityMeteorite extends Entity
 	        			}
 	        			
 	        			y--;
+	        			
+	        			if (y <= 0) keepTry = false;
 	        		}
 	        		
 	        		y++;
@@ -484,6 +486,7 @@ public class EntityMeteorite extends Entity
         return 0.0F;
     }
     
+    @Override
     public boolean isInRangeToRenderVec3D(Vec3 par1Vec3)
     {
         return true;

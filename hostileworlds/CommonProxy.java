@@ -15,6 +15,7 @@ import hostileworlds.entity.EntityMeteorite;
 import hostileworlds.entity.EntityTestAI;
 import hostileworlds.entity.MovingBlock;
 import hostileworlds.entity.comrade.EntityComradeImpl;
+import hostileworlds.entity.monster.EntityBlockMonster;
 import hostileworlds.entity.monster.EntityWormFire;
 import hostileworlds.entity.monster.EntityWormSand;
 import hostileworlds.entity.monster.Zombie;
@@ -124,7 +125,7 @@ public class CommonProxy implements IGuiHandler
 
         EntityRegistry.registerModEntity(EntityRtsWorker.class, "EntityRtsWorker", entityId++, pMod, 128, 1, true);
     	//EntityRegistry.registerModEntity(EntityScent.class, "EntityScent", entityId++, pMod, 32, 20, false);
-    	
+        EntityRegistry.registerModEntity(EntityBlockMonster.class, "EntityBlockMonster", entityId++, pMod, 128, 1, true);
     	
         //EntityRegistry.registerModEntity(EntitySurfboard.class, "EntitySurfboard", entityId++, mod, 64, 10, true);
         
