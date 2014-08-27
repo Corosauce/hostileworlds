@@ -1,6 +1,6 @@
 package hostileworlds;
 
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.entity.monster.ZombieMiner;
 
 import java.util.ArrayList;
@@ -69,6 +69,6 @@ public class HWEventHandler {
 	
 	@SubscribeEvent
 	public void breakBlockHarvest(HarvestDropsEvent event) {
-		WorldDirector.handleHarvest(event);
+		WorldDirectorMultiDim.handleHarvest(event);
 	}
 }

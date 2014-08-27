@@ -22,14 +22,14 @@ import CoroUtil.util.CoroUtilBlock;
 public class AreaScanner implements Runnable {
 
 	public World world;
-	public WorldDirector worldDirector;
+	public WorldDirectorMultiDim worldDirector;
 	
 	public ArrayList<ChunkCoordinates> tempSurfaceCaves = new ArrayList();
 	public ArrayList<ChunkCoordinates> tempCaves = new ArrayList();
 	
 	public boolean pfToPlayer = false;
 	
-	public AreaScanner(WorldDirector wd, World parWorld) {
+	public AreaScanner(WorldDirectorMultiDim wd, World parWorld) {
 		world = parWorld;
 		worldDirector = wd;
 	}

@@ -56,12 +56,12 @@ import CoroUtil.util.CoroUtilEntity;
 import CoroUtil.util.CoroUtilFile;
 import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 
-public class WorldDirector implements IPFCallback {
+public class WorldDirectorMultiDim implements IPFCallback {
 
 	
 	
 	//1.7.2 BUG!! LIST DATA WAS REFILLED VIA DIMENSION MANAGER, MUST FIX! WE LOSE INVASION SOURCES NOW!
-	
+	//i think i fixed it
 	
 	
 	
@@ -105,7 +105,7 @@ public class WorldDirector implements IPFCallback {
 	//public int timeBetweenInvasions = 120000; //5 days
 	public int maxActiveInvasionsPerPlayer = 1;
 	
-	public WorldDirector() {
+	public WorldDirectorMultiDim() {
 		
 		//new HWDimensionManager();
 		
@@ -359,14 +359,14 @@ public class WorldDirector implements IPFCallback {
 	}
 	
 	public boolean isValidSourceBlockID(Block id) {
-		if (id == HostileWorlds.blockInvasionSource || id == Blocks.portal) return true;
+		if (id == HostileWorlds.blockSourceInvasion || id == Blocks.portal) return true;
 		return false;
 	}
 	
 	public EnumWorldEventType getSourceType(int dim, ChunkCoordinates coords) {
 		Block id = DimensionManager.getWorld(dim).getBlock(coords.posX, coords.posY, coords.posZ);
 		
-		if (id == HostileWorlds.blockInvasionSource) {
+		if (id == HostileWorlds.blockSourceInvasion) {
 			return EnumWorldEventType.INV_PORTAL_CATACOMBS;
 		} else if (id == Blocks.portal) {
 			return EnumWorldEventType.INV_PORTAL_NETHER;
@@ -669,7 +669,7 @@ public class WorldDirector implements IPFCallback {
         //ent.motionY = rand.nextFloat()*2-1;
         //ent.motionZ = (rand.nextFloat()*2-1) * 6F;
 		
-		HostileWorlds.eventChannel.sendToDimension(WorldDirector.getMeteorPacket(ent, 0), ent.dimension);
+		HostileWorlds.eventChannel.sendToDimension(WorldDirectorMultiDim.getMeteorPacket(ent, 0), ent.dimension);
         //MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayersInDimension(getMeteorPacket(ent, 0), ent.dimension);
         ent.worldObj.weatherEffects.add(((Entity)ent));
         
@@ -700,7 +700,7 @@ public class WorldDirector implements IPFCallback {
 		
 		nbt.setString("packetCommand", "InvasionData");
 		
-		EntityPlayer entP = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(player);
+		EntityPlayer entP = MinecraftServer.getServer().getConfigurationManager().func_152612_a(player);
 		if (ModConfigFields.timeBasedInvasionsInstead) {
 			nbt.setInteger("cooldown", getPlayerNBT(CoroUtilEntity.getName(entP)).getInteger("HWInvasionCooldown"));
 		} else {
@@ -713,8 +713,8 @@ public class WorldDirector implements IPFCallback {
 		
 		NBTTagCompound nbtListing = new NBTTagCompound();
 		
-		for (int j = 0; j < WorldDirector.curInvasions.get(dim).size(); j++) {
-        	WorldEvent invasion = WorldDirector.curInvasions.get(dim).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.curInvasions.get(dim).size(); j++) {
+        	WorldEvent invasion = WorldDirectorMultiDim.curInvasions.get(dim).get(j);
 			NBTTagCompound nbtEntry = new NBTTagCompound();
 			invasion.writeNBT(nbtEntry);
 			nbtListing.setTag("entry_" + j, nbtEntry);
@@ -1215,7 +1215,7 @@ public class WorldDirector implements IPFCallback {
 		if (event.harvester != null) {
 			if (event.world.playerEntities.contains(event.harvester)) {
 				
-				NBTTagCompound nbt = WorldDirector.getPlayerNBT(CoroUtilEntity.getName(event.harvester));
+				NBTTagCompound nbt = WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(event.harvester));
 				if (event.block instanceof BlockOre) {
 					int curVal = nbt.getInteger("harvested_Ore");
 					curVal++;
@@ -1238,7 +1238,7 @@ public class WorldDirector implements IPFCallback {
 	}
 	
 	public static void increaseInvadeRating(EntityPlayer parPlayer, float parVal) {
-		NBTTagCompound nbt = WorldDirector.getPlayerNBT(CoroUtilEntity.getName(parPlayer));
+		NBTTagCompound nbt = WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(parPlayer));
 		float curVal = nbt.getFloat("harvested_Rating");
 		curVal += parVal;
 		nbt.setFloat("harvested_Rating", curVal);
@@ -1247,7 +1247,7 @@ public class WorldDirector implements IPFCallback {
 	}
 	
 	public static void decreaseInvadeRating(EntityPlayer parPlayer, float parVal) {
-		NBTTagCompound nbt = WorldDirector.getPlayerNBT(CoroUtilEntity.getName(parPlayer));
+		NBTTagCompound nbt = WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(parPlayer));
 		float curVal = nbt.getFloat("harvested_Rating");
 		curVal -= parVal;
 		nbt.setFloat("harvested_Rating", curVal);
@@ -1258,6 +1258,6 @@ public class WorldDirector implements IPFCallback {
 	}
 	
 	public static boolean isInvadeable(EntityPlayer parPlayer) {
-		return WorldDirector.getPlayerNBT(CoroUtilEntity.getName(parPlayer)).getFloat("harvested_Rating") >= getHarvestRatingInvadeThreshold();
+		return WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(parPlayer)).getFloat("harvested_Rating") >= getHarvestRatingInvadeThreshold();
 	}
 }

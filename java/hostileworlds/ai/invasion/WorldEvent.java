@@ -1,7 +1,7 @@
 package hostileworlds.ai.invasion;
 
 import hostileworlds.HostileWorlds;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.entity.EntityInvader;
 
@@ -116,7 +116,7 @@ public class WorldEvent {
 	public void tick() {
 		World world = DimensionManager.getWorld(dimensionID);
 		EntityPlayer entP = world.getPlayerEntityByName(mainPlayerName);
-		if (entP != null) WorldDirector.getPlayerNBT(CoroUtilEntity.getName(entP)).setInteger("HWInvasionCooldown", ModConfigFields.coolDownBetweenInvasionsPortal + 1);
+		if (entP != null) WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(entP)).setInteger("HWInvasionCooldown", ModConfigFields.coolDownBetweenInvasionsPortal + 1);
 		//if (DimensionManager.getWorld(dimensionID).getWorldTime() % 40 == 0) updatePlayerStates();
 		//invasionEnd();
 		
@@ -190,7 +190,7 @@ public class WorldEvent {
     }
     
     public EntityPlayer tryGetCursedPlayer(String username) {
-    	EntityPlayer entP = MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(username);
+    	EntityPlayer entP = MinecraftServer.getServer().getConfigurationManager().func_152612_a(username);
     	
     	if (entP != null && entP.worldObj.provider.dimensionId == DimensionManager.getWorld(dimensionID).provider.dimensionId) {
     		return entP;
@@ -211,7 +211,7 @@ public class WorldEvent {
 			
 			if (entP != null) {
 				playersFound++;
-				totalRating += WorldDirector.getPlayerNBT(CoroUtilEntity.getName(entP)).getInteger("HWPlayerRating");
+				totalRating += WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(entP)).getInteger("HWPlayerRating");
 			}
 		}
 		
@@ -224,7 +224,7 @@ public class WorldEvent {
 			waveCount = portal.numOfWavesSpawned;
 		}*/
 		
-		waveCount = WorldDirector.getPlayerNBT(mainPlayerName).getInteger("numOfWavesSpawned");
+		waveCount = WorldDirectorMultiDim.getPlayerNBT(mainPlayerName).getInteger("numOfWavesSpawned");
 		
 		float playerCountAdditiveFactor = 3;
 		float waveCountFactor = 2;
@@ -325,7 +325,7 @@ public class WorldEvent {
 				if (itemstack != null) entP.getAttributeMap().applyAttributeModifiers(itemstack.getAttributeModifiers());
 				
 				//System.out.println("calculated bestWeaponValue: " + bestWeaponValue);
-				WorldDirector.getPlayerNBT(CoroUtilEntity.getName(entP)).setInteger("HWPlayerRating", (int)(armorValue + bestWeaponValue + (hasGlove ? 20 : 0)));
+				WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(entP)).setInteger("HWPlayerRating", (int)(armorValue + bestWeaponValue + (hasGlove ? 20 : 0)));
 			}
 		}
     }

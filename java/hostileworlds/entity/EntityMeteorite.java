@@ -2,9 +2,9 @@ package hostileworlds.entity;
 
 import hostileworlds.HostileWorlds;
 import hostileworlds.ServerTickHandler;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.ai.invasion.WorldEvent;
-import hostileworlds.block.TileEntityInvasionSource;
+import hostileworlds.block.TileEntitySourceInvasion;
 import hostileworlds.entity.particle.EntityMeteorTrailFX;
 import hostileworlds.quest.InvasionSourceBreakEvent;
 
@@ -293,7 +293,7 @@ public class EntityMeteorite extends Entity
         if (!isDead) {
         	if (!worldObj.isRemote) {
         		if (!dying) {
-        			HostileWorlds.eventChannel.sendToDimension(WorldDirector.getMeteorPacket(this, 1), this.dimension);
+        			HostileWorlds.eventChannel.sendToDimension(WorldDirectorMultiDim.getMeteorPacket(this, 1), this.dimension);
         			//MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayersInDimension(WorldDirector.getMeteorPacket(this, 1), this.dimension);
         		}
         		onTickExplode();
@@ -305,7 +305,7 @@ public class EntityMeteorite extends Entity
         if (!worldObj.isRemote) {
         	if (!dying && Math.abs(crashDestination.posY - posY) < 3) {
         		System.out.println("METEOR DEATH BEGIN, killing on client side");
-        		HostileWorlds.eventChannel.sendToDimension(WorldDirector.getMeteorPacket(this, 2), this.dimension);
+        		HostileWorlds.eventChannel.sendToDimension(WorldDirectorMultiDim.getMeteorPacket(this, 2), this.dimension);
         		//MinecraftServer.getServer().getConfigurationManager().sendPacketToAllPlayersInDimension(WorldDirector.getMeteorPacket(this, 2), this.dimension);
         		dying = true;
         	}
@@ -360,7 +360,7 @@ public class EntityMeteorite extends Entity
 		Block id = HostileWorlds.blockBloodyCobblestone;
 		
 		//int portalHeight = 5;
-		int portalBorderRadius = TileEntityInvasionSource.portalBorderRadius;
+		int portalBorderRadius = TileEntitySourceInvasion.portalBorderRadius;
 		
 		int startX = 0;
 		int startZ = 0;
@@ -387,18 +387,18 @@ public class EntityMeteorite extends Entity
 		
 		//portal border
 		for (int i = -portalBorderRadius; i <= portalBorderRadius; i++) {
-    		worldObj.setBlock(xx-portalBorderRadius, yy+y+TileEntityInvasionSource.portalHeight, zz+i, id);
-    		worldObj.setBlock(xx+portalBorderRadius, yy+y+TileEntityInvasionSource.portalHeight, zz+i, id);
+    		worldObj.setBlock(xx-portalBorderRadius, yy+y+TileEntitySourceInvasion.portalHeight, zz+i, id);
+    		worldObj.setBlock(xx+portalBorderRadius, yy+y+TileEntitySourceInvasion.portalHeight, zz+i, id);
 		}
 		
 		//portal border
 		for (int i = -portalBorderRadius+1; i <= portalBorderRadius-1; i++) {
-    		worldObj.setBlock(xx+i, yy+y+TileEntityInvasionSource.portalHeight, zz-portalBorderRadius, id);
-    		worldObj.setBlock(xx+i, yy+y+TileEntityInvasionSource.portalHeight, zz+portalBorderRadius, id);
+    		worldObj.setBlock(xx+i, yy+y+TileEntitySourceInvasion.portalHeight, zz-portalBorderRadius, id);
+    		worldObj.setBlock(xx+i, yy+y+TileEntitySourceInvasion.portalHeight, zz+portalBorderRadius, id);
 		}
 		
 		//pillars
-		for (int i = 0; i < TileEntityInvasionSource.portalHeight; i++) {
+		for (int i = 0; i < TileEntitySourceInvasion.portalHeight; i++) {
 			worldObj.setBlock(xx-portalBorderRadius, yy+y+i, zz-portalBorderRadius, id);
 			worldObj.setBlock(xx+portalBorderRadius, yy+y+i, zz-portalBorderRadius, id);
 			worldObj.setBlock(xx-portalBorderRadius, yy+y+i, zz+portalBorderRadius, id);
@@ -426,7 +426,7 @@ public class EntityMeteorite extends Entity
 		worldObj.setBlock(xx+2, yy, zz, id);
 		worldObj.setBlock(xx+1, yy, zz, id);*/
 		
-		id = HostileWorlds.blockInvasionSource;
+		id = HostileWorlds.blockSourceInvasion;
 		
 		worldObj.setBlock(xx, yy+y+1, zz, id, 0, 2);
 		/*worldObj.setBlock(xx+1, yy+2, zz, id, 0, 2);
@@ -443,7 +443,7 @@ public class EntityMeteorite extends Entity
     public void updateInvasionInfo(int x, int y, int z) {
     	try {
     		
-    		TileEntityInvasionSource tEnt = ((TileEntityInvasionSource)worldObj.getTileEntity(x, y, z));
+    		TileEntitySourceInvasion tEnt = ((TileEntitySourceInvasion)worldObj.getTileEntity(x, y, z));
     		if (tEnt != null) {
     			invasion.coordSource = new ChunkCoordinates(tEnt.xCoord, tEnt.yCoord, tEnt.zCoord);
     			ServerTickHandler.wd.coordInvasionSources.get(dimension).add(invasion.coordSource);
@@ -455,7 +455,7 @@ public class EntityMeteorite extends Entity
 			if (aq != null) {
 				aq.initCreateObject(plQuests);
 				aq.initFirstTime(worldObj.provider.dimensionId);
-				aq.initCustomData(invasion.coordSource, HostileWorlds.blockInvasionSource);
+				aq.initCustomData(invasion.coordSource, HostileWorlds.blockSourceInvasion);
 				
 				plQuests.questAdd(aq);
 				plQuests.saveAndSyncPlayer();

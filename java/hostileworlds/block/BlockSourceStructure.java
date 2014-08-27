@@ -7,9 +7,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockInvasionSource extends BlockContainer
+public class BlockSourceStructure extends BlockContainer
 {
-    public BlockInvasionSource()
+    public BlockSourceStructure()
     {
         super(Material.rock);
     }
@@ -24,7 +24,7 @@ public class BlockInvasionSource extends BlockContainer
     @Override
     public TileEntity createNewTileEntity(World var1, int meta)
     {
-        return new TileEntityInvasionSource();
+        return new TileEntitySourceStructure();
     }
     
     @Override

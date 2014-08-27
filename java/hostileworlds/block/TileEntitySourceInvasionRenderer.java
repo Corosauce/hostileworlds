@@ -14,7 +14,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-public class TileEntityInvasionSourceRenderer extends TileEntitySpecialRenderer
+public class TileEntitySourceInvasionRenderer extends TileEntitySpecialRenderer
 {
 	
 	FloatBuffer field_76908_a = GLAllocation.createDirectFloatBuffer(16);
@@ -24,7 +24,7 @@ public class TileEntityInvasionSourceRenderer extends TileEntitySpecialRenderer
     public ResourceLocation resTunnel = new ResourceLocation("textures/environment/end_sky.png");
     public ResourceLocation resField = new ResourceLocation("textures/entity/end_portal.png");
 	
-    public void renderEndPortalTileEntity(TileEntityInvasionSource par1TileEntityEndPortal, double par2, double par4, double par6, float par8)
+    public void renderEndPortalTileEntity(TileEntitySourceInvasion par1TileEntityEndPortal, double par2, double par4, double par6, float par8)
     {
     	
     	GL11.glPushMatrix();
@@ -257,7 +257,7 @@ public class TileEntityInvasionSourceRenderer extends TileEntitySpecialRenderer
     
     public void renderTileEntityAt(TileEntity var1, double var2, double var4, double var6, float var8) {
     	
-    	this.renderEndPortalTileEntity((TileEntityInvasionSource)var1, var2, var4, var6, var8);
+    	this.renderEndPortalTileEntity((TileEntitySourceInvasion)var1, var2, var4, var6, var8);
     	
     }
 }

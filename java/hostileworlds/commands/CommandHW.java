@@ -1,18 +1,19 @@
 package hostileworlds.commands;
 
 import hostileworlds.HostileWorlds;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.ai.invasion.WorldEvent;
 import hostileworlds.ai.jobs.JobGroupHorde;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.entity.EntityInvader;
 import hostileworlds.entity.EntityMeteorite;
+import hostileworlds.world.location.Stronghold;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import modconfig.ConfigMod;
-import net.minecraft.block.Block;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
@@ -20,13 +21,14 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import CoroUtil.componentAI.ICoroAI;
 import CoroUtil.util.CoroUtil;
 import CoroUtil.util.CoroUtilEntity;
+import CoroUtil.world.WorldDirector;
+import CoroUtil.world.WorldDirectorManager;
+import CoroUtil.world.location.ManagedLocation;
 
 public class CommandHW extends CommandBase {
 
@@ -118,21 +120,21 @@ public class CommandHW extends CommandBase {
 					} else if (var2[0].equalsIgnoreCase("invasion")) {
 						if (var2[1].equalsIgnoreCase("start")) {
 							if (ModConfigFields.timeBasedInvasionsInstead) {
-								WorldDirector.getPlayerNBT(CoroUtilEntity.getName(player)).setInteger("HWInvasionCooldown", 20);
+								WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(player)).setInteger("HWInvasionCooldown", 20);
 							} else {
-								WorldDirector.getPlayerNBT(CoroUtilEntity.getName(player)).setFloat("harvested_Rating", WorldDirector.getHarvestRatingInvadeThreshold());
+								WorldDirectorMultiDim.getPlayerNBT(CoroUtilEntity.getName(player)).setFloat("harvested_Rating", WorldDirectorMultiDim.getHarvestRatingInvadeThreshold());
 							}
 						} else if (var2[1].equalsIgnoreCase("stop") || var2[1].equalsIgnoreCase("end")) {
-							for (int i = 0; i < WorldDirector.curInvasions.get(player.dimension).size(); i++) {
-								WorldEvent we = WorldDirector.curInvasions.get(player.dimension).get(i);
+							for (int i = 0; i < WorldDirectorMultiDim.curInvasions.get(player.dimension).size(); i++) {
+								WorldEvent we = WorldDirectorMultiDim.curInvasions.get(player.dimension).get(i);
 								if (we.mainPlayerName.equals(CoroUtilEntity.getName(player))) {
-									WorldDirector.curInvasions.get(player.dimension).remove(i);
+									WorldDirectorMultiDim.curInvasions.get(player.dimension).remove(i);
 									break;
 								}
 							}
 						} else if (var2[1].equalsIgnoreCase("next")) {
-							for (int i = 0; i < WorldDirector.curInvasions.get(player.dimension).size(); i++) {
-								WorldEvent we = WorldDirector.curInvasions.get(player.dimension).get(i);
+							for (int i = 0; i < WorldDirectorMultiDim.curInvasions.get(player.dimension).size(); i++) {
+								WorldEvent we = WorldDirectorMultiDim.curInvasions.get(player.dimension).get(i);
 								if (we.mainPlayerName.equals(CoroUtilEntity.getName(player))) {
 									we.curCooldown = 20;
 								}
@@ -153,7 +155,7 @@ public class CommandHW extends CommandBase {
 						} else if (var2[1].equalsIgnoreCase("set")) {
 							
 						}
-						WorldDirector.getPlayerNBT(username).setInteger("numOfWavesSpawned", val);
+						WorldDirectorMultiDim.getPlayerNBT(username).setInteger("numOfWavesSpawned", val);
 						CoroUtil.sendPlayerMsg((EntityPlayerMP) player, username + "s waveCount set to " + val);
 					/*} else if (var2[0].equalsIgnoreCase("boss")) {
 						if (var2[1].equalsIgnoreCase("reset")) {
@@ -219,7 +221,35 @@ public class CommandHW extends CommandBase {
 				    			break;
 				    		}
 				    	}
-					}/* else if (var2[0].equalsIgnoreCase("rts")) {
+					} else if (var2[0].equals("stronghold")) {
+						
+						//for now, to speed up production, use CoroUtil world director for its managed locations, and HW multi dimensional WorldDirector for ... for what?
+						
+						int x = MathHelper.floor_double(player.posX);
+						int z = MathHelper.floor_double(player.posZ);
+						int y = player.worldObj.getHeightValue(x, z);
+						Stronghold village = new Stronghold();
+						
+						WorldDirector wd = WorldDirectorManager.instance().getCoroUtilWorldDirector(player.worldObj);
+						//questionable ID setting
+						int newID = wd.lookupTickingManagedLocations.size();
+						village.initData(newID, player.worldObj.provider.dimensionId, new ChunkCoordinates(x, y, z));
+						village.initFirstTime();
+						wd.addTickingLocation(village);
+						//StructureObject bb = StructureMapping.newTown(player.worldObj.provider.dimensionId, "command", new ChunkCoordinates(x, y, z));
+						//bb.init();
+						//bb.location.initFirstTime();
+					} else if (var2[0].equals("regen")) {
+						WorldDirector wd = WorldDirectorManager.instance().getCoroUtilWorldDirector(player.worldObj);
+						Iterator it = wd.lookupTickingManagedLocations.values().iterator();
+						while (it.hasNext()) {
+							ManagedLocation ml = (ManagedLocation) it.next();
+							ml.initFirstTime();
+						}
+					}
+					
+					
+					/* else if (var2[0].equalsIgnoreCase("rts")) {
 						if (var2[1].equalsIgnoreCase("new")) {
 							RtsEngine.teams.teamNew(player.worldObj.provider.dimensionId, new ChunkCoordinates((int)(player.posX), (int)(player.posY), (int)(player.posZ)));
 						} else if (var2[1].equalsIgnoreCase("reset") || var2[1].equalsIgnoreCase("clear") ) {

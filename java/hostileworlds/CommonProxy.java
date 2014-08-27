@@ -1,15 +1,17 @@
 package hostileworlds;
 
-import particleman.forge.ParticleMan;
-import particleman.items.ItemParticleGlove;
 import hostileworlds.block.BlockAuraCurse;
 import hostileworlds.block.BlockBloodMoss;
-import hostileworlds.block.BlockInvasionSource;
+import hostileworlds.block.BlockSourceInvasion;
+import hostileworlds.block.BlockSourceStructure;
 import hostileworlds.block.TileEntityAuraCurse;
-import hostileworlds.block.TileEntityInvasionSource;
+import hostileworlds.block.TileEntitySourceInvasion;
+import hostileworlds.block.TileEntitySourceStructure;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.entity.EntityMeteorite;
 import hostileworlds.entity.MovingBlock;
+import hostileworlds.entity.bt.OrcArcher;
+import hostileworlds.entity.bt.OrcGuard;
 import hostileworlds.entity.comrade.EntityComradeImpl;
 import hostileworlds.entity.monster.EntityBlockMonster;
 import hostileworlds.entity.monster.EntityWormFire;
@@ -25,11 +27,10 @@ import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import CoroUtil.entity.projectile.EntityArrow;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IGuiHandler;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -54,7 +55,9 @@ public class CommonProxy implements IGuiHandler
         
         addBlock(pMod.blockAuraCurse = (new BlockAuraCurse()).setCreativeTab(CreativeTabs.tabMisc), TileEntityAuraCurse.class, "curseAura", "Invasion Debug Block");
         
-        addBlock(pMod.blockInvasionSource = (new BlockInvasionSource()).setCreativeTab(CreativeTabs.tabMisc), TileEntityInvasionSource.class, "invasionSource", "Invasion Source Block");
+        addBlock(pMod.blockSourceInvasion = (new BlockSourceInvasion()).setCreativeTab(CreativeTabs.tabMisc), TileEntitySourceInvasion.class, "invasionSource", "Invasion Source Block");
+        
+        addBlock(pMod.blockSourceStructure = (new BlockSourceStructure()).setCreativeTab(CreativeTabs.tabMisc), TileEntitySourceStructure.class, "structureSource", "Structure Source Block");
         
         /*CoroUtilBlock.setUnlocalizedNameAndTexture(pMod.blockPortal = (BlockHWPortal) (new BlockHWPortal(ModConfigBlockFields.blockIDStart++, Material.portal)).setBlockUnbreakable().setResistance(6000000), HostileWorlds.modID + ":hwPortal");
         GameRegistry.registerBlock(pMod.blockPortal, "Hostile Worlds Portal");
@@ -130,6 +133,11 @@ public class CommonProxy implements IGuiHandler
     	//EntityRegistry.registerModEntity(EntityScent.class, "EntityScent", entityId++, pMod, 32, 20, false);
         EntityRegistry.registerModEntity(EntityBlockMonster.class, "EntityBlockMonster", entityId++, pMod, 128, 1, true);
     	
+        EntityRegistry.registerModEntity(OrcArcher.class, "OrcArcher", entityId++, pMod, 128, 1, true);
+        EntityRegistry.registerModEntity(OrcGuard.class, "OrcGuard", entityId++, pMod, 128, 1, true);
+        
+        EntityRegistry.registerModEntity(EntityArrow.class, "HWEntityArrow", entityId++, pMod, 128, 1, true);
+        
         //EntityRegistry.registerModEntity(EntitySurfboard.class, "EntitySurfboard", entityId++, mod, 64, 10, true);
         
 		//EntityRegistry.registerGlobalEntityID(c_w_MovingBlockStructure.class, "c_w_MovingBlockStructure", entityId-1,0,0);

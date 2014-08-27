@@ -1,6 +1,6 @@
 package hostileworlds;
 
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.commands.CommandHW;
 import hostileworlds.config.ModConfigFields;
 import hostileworlds.dimension.HWDimensionManager;
@@ -52,8 +52,9 @@ public class HostileWorlds {
     public static CommonProxy proxy;
     
     public static Block blockAuraCurse;
-    public static Block blockInvasionSource;
+    public static Block blockSourceInvasion;
     public static Block blockBloodyCobblestone;
+    public static Block blockSourceStructure;
     //public static BlockHWPortal blockPortal;
     //public static Block blockRaidingLadder;
     //public static Block blockRaidingLadderBase;
@@ -253,7 +254,7 @@ public class HostileWorlds {
 	    	CompressedStreamTools.writeCompressed(gameData, fos);
 	    	fos.close();
 	    	
-	    	WorldDirector.writeAllPlayerNBT();
+	    	WorldDirectorMultiDim.writeAllPlayerNBT();
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();

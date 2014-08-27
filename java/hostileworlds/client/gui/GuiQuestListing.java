@@ -104,7 +104,7 @@ public class GuiQuestListing extends GuiScreen implements IScrollingGUI {
     	ySize = 250;
 		
 		super.initGui();
-		ScaledResolution var8 = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+		ScaledResolution var8 = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int scaledWidth = var8.getScaledWidth();
         int scaledHeight = var8.getScaledHeight();
         

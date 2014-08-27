@@ -1,6 +1,6 @@
 package hostileworlds;
 
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.ai.invasion.WorldEvent;
 import hostileworlds.entity.EntityMeteorite;
 import io.netty.buffer.ByteBuf;
@@ -93,25 +93,25 @@ public class EventHandlerPacket {
 	        	//invasion data dimension
 	        	//invasion data list size
 	        	//invasion data listings
-	        	WorldDirector.clientPlayersCooldown = nbt.getInteger("cooldown");
-	        	WorldDirector.clientPlayerInvadeValue = nbt.getFloat("invadeValue");
+	        	WorldDirectorMultiDim.clientPlayersCooldown = nbt.getInteger("cooldown");
+	        	WorldDirectorMultiDim.clientPlayerInvadeValue = nbt.getFloat("invadeValue");
 	        	int dimID = nbt.getInteger("dimID");
 	        	//int listingSize = nbt.getInteger("listSize");
 	        	NBTTagCompound nbtData = nbt.getCompoundTag("invasionListing");
 	        	
-	        	WorldDirector.clientCurInvasions = new HashMap<Integer, ArrayList<WorldEvent>>();
-	        	WorldDirector.clientCurInvasions.put(dimID, new ArrayList<WorldEvent>());
+	        	WorldDirectorMultiDim.clientCurInvasions = new HashMap<Integer, ArrayList<WorldEvent>>();
+	        	WorldDirectorMultiDim.clientCurInvasions.put(dimID, new ArrayList<WorldEvent>());
 	        	
 	        	//HostileWorlds.dbg("listingSize: " + listingSize);
 	        	
-	        	WorldDirector.clientCurInvasions.get(dimID).clear();
+	        	WorldDirectorMultiDim.clientCurInvasions.get(dimID).clear();
 	        	
 	        	Iterator it = nbtData.func_150296_c().iterator();
 	            while (it.hasNext()) {
 	            	String tagName = (String) it.next();
 	            	NBTTagCompound entry = nbtData.getCompoundTag(tagName);
 	            	WorldEvent wEvent = WorldEvent.newInvasionFromNBT(entry);
-	        		WorldDirector.clientCurInvasions.get(dimID).add(wEvent);
+	        		WorldDirectorMultiDim.clientCurInvasions.get(dimID).add(wEvent);
 	            }
 	        	
 	        	/*//REWORK TO ITERATE DATA IN NBT

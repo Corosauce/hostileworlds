@@ -2,7 +2,7 @@ package hostileworlds.ai.invasion;
 
 import hostileworlds.HostileWorlds;
 import hostileworlds.ServerTickHandler;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.config.ModConfigFields;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -45,7 +45,7 @@ public class InvasionPortalCatacombs extends WorldEvent {
 					TileEntity tEnt = DimensionManager.getWorld(dimensionID).getTileEntity(coordSource.posX, coordSource.posY, coordSource.posZ);
 					if (tEnt == null) {
 						HostileWorlds.dbg("portal broke, end!");
-						WorldDirector.coordInvasionSources.get(dimensionID).remove(coordSource);
+						WorldDirectorMultiDim.coordInvasionSources.get(dimensionID).remove(coordSource);
 						invasionEnd();
 						return;
 					}
@@ -55,7 +55,7 @@ public class InvasionPortalCatacombs extends WorldEvent {
 						if (ServerTickHandler.wd.spawnGroup(DimensionManager.getWorld(dimensionID), this.coordDestination, this.coordSource, this, currentWaveSpawnedInvaders)) {
 							//((TileEntityHWPortal)tEnt).getMainTileEntity().numOfWavesSpawned++;
 							if (!mainPlayerName.equals("")) {
-								NBTTagCompound nbt = WorldDirector.getPlayerNBT(mainPlayerName);
+								NBTTagCompound nbt = WorldDirectorMultiDim.getPlayerNBT(mainPlayerName);
 								nbt.setInteger("numOfWavesSpawned", nbt.getInteger("numOfWavesSpawned")+1);
 							}
 							waveCount++;

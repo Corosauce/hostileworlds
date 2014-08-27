@@ -24,7 +24,7 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityInvasionSource extends TileEntity
+public class TileEntitySourceInvasion extends TileEntity
 {
     
     //Curse stuff
@@ -47,7 +47,7 @@ public class TileEntityInvasionSource extends TileEntity
     public static int portalHeight = 5;
     public static int portalBorderRadius = 2;
 
-    public TileEntityInvasionSource() {
+    public TileEntitySourceInvasion() {
     	
     }
     

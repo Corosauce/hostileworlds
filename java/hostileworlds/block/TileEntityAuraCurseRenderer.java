@@ -1,6 +1,6 @@
 package hostileworlds.block;
 
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.ai.invasion.WorldEvent;
 import hostileworlds.config.ModConfigFields;
 
@@ -28,14 +28,14 @@ public class TileEntityAuraCurseRenderer extends TileEntitySpecialRenderer
     	float scale = 0.15F;
     	int dim = var1.getWorldObj().provider.dimensionId;
     	
-    	int cooldown = WorldDirector.clientPlayersCooldown;
+    	int cooldown = WorldDirectorMultiDim.clientPlayersCooldown;
     	//EntityPlayer entP = DimensionManager.getWorld(dim).getPlayerEntityByName(Minecraft.getMinecraft().thePlayer.username);
     	
     	//if (entP != null) cooldown = entP.getEntityData().getInteger("HWInvasionCooldown");
     	
-    	if (WorldDirector.clientCurInvasions == null || WorldDirector.clientCurInvasions.get(dim) == null) return;
+    	if (WorldDirectorMultiDim.clientCurInvasions == null || WorldDirectorMultiDim.clientCurInvasions.get(dim) == null) return;
     	
-    	HashMap<Integer, ArrayList<WorldEvent>> invasions = WorldDirector.clientCurInvasions;
+    	HashMap<Integer, ArrayList<WorldEvent>> invasions = WorldDirectorMultiDim.clientCurInvasions;
     	
     	//if (MinecraftServer.getServer().isSinglePlayer()) invasions = WorldDirector.curInvasions;
     	
@@ -57,7 +57,7 @@ public class TileEntityAuraCurseRenderer extends TileEntitySpecialRenderer
     	if (cooldown != -1) {
     		renderLivingLabel("Invasions: " + invasions.get(dim).size() + " - Your cooldown: " + /*Minecraft.getMinecraft().thePlayer*/cooldown, var2, var4+renderOffset-infoBlockHeight+0.075F-0.1F, var6, 1);
     	} else {
-    		renderLivingLabel("Invasions: " + invasions.get(dim).size() + " - Your invasion value: " + WorldDirector.clientPlayerInvadeValue + "/" + WorldDirector.getHarvestRatingInvadeThreshold(), var2, var4+renderOffset-infoBlockHeight+0.075F-0.1F, var6, 1);
+    		renderLivingLabel("Invasions: " + invasions.get(dim).size() + " - Your invasion value: " + WorldDirectorMultiDim.clientPlayerInvadeValue + "/" + WorldDirectorMultiDim.getHarvestRatingInvadeThreshold(), var2, var4+renderOffset-infoBlockHeight+0.075F-0.1F, var6, 1);
     	}
     	
     	for (int i = 0; i < invSize; i++) {

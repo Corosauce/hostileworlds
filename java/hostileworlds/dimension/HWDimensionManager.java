@@ -3,7 +3,7 @@ package hostileworlds.dimension;
 import hostileworlds.HostileWorlds;
 import hostileworlds.ServerTickHandler;
 import hostileworlds.ai.CursedAreaCoordinates;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.ai.invasion.WorldEvent;
 
 import java.util.ArrayList;
@@ -177,7 +177,7 @@ public class HWDimensionManager {
     
     public static void readDimension(int dimID, NBTTagCompound dimData) {
     	if (ServerTickHandler.wd == null) {
-    		ServerTickHandler.wd = new WorldDirector();
+    		ServerTickHandler.wd = new WorldDirectorMultiDim();
     	}
     	ServerTickHandler.wd.initDimData(dimID);
     	
@@ -191,7 +191,7 @@ public class HWDimensionManager {
 			WorldEvent invasion = WorldEvent.newInvasionFromNBT(data);
 			
 			HostileWorlds.dbg("starting loaded invasion: " + invasion.type + " - player name: " + invasion.mainPlayerName);
-			WorldDirector.curInvasions.get(dimID).add(invasion);
+			WorldDirectorMultiDim.curInvasions.get(dimID).add(invasion);
 		}
 		
 		//Curses
@@ -202,7 +202,7 @@ public class HWDimensionManager {
 			NBTTagCompound data = listData.getCompoundTag(tagName);
 			CursedAreaCoordinates curse = new CursedAreaCoordinates();
 			curse.readNBT(data);
-			WorldDirector.coordCurses.get(dimID).add(curse);
+			WorldDirectorMultiDim.coordCurses.get(dimID).add(curse);
 		}
     	
     	//Surface Caves
@@ -211,7 +211,7 @@ public class HWDimensionManager {
 		while (it.hasNext()) {
 			String tagName = (String) it.next();
 			NBTTagCompound data = listData.getCompoundTag(tagName);
-			WorldDirector.coordSurfaceCaves.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
+			WorldDirectorMultiDim.coordSurfaceCaves.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
 		}
 		
 		//Caves
@@ -220,7 +220,7 @@ public class HWDimensionManager {
 		while (it.hasNext()) {
 			String tagName = (String) it.next();
 			NBTTagCompound data = listData.getCompoundTag(tagName);
-			WorldDirector.coordCaves.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
+			WorldDirectorMultiDim.coordCaves.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
 		}
 		
 		//Invasion Sources
@@ -229,21 +229,21 @@ public class HWDimensionManager {
 		while (it.hasNext()) {
 			String tagName = (String) it.next();
 			NBTTagCompound data = listData.getCompoundTag(tagName);
-			WorldDirector.coordInvasionSources.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
+			WorldDirectorMultiDim.coordInvasionSources.get(dimID).add(HostileWorlds.readChunkCoords("coord", data));
 		}
 		
-		HostileWorlds.dbg("dim: " + dimID + " - LOADED coordInvasionSources size: " + WorldDirector.coordInvasionSources.get(dimID).size());
+		HostileWorlds.dbg("dim: " + dimID + " - LOADED coordInvasionSources size: " + WorldDirectorMultiDim.coordInvasionSources.get(dimID).size());
     }
     
     public static void writeDimension(int dimID, NBTTagCompound dimData) {
     	
     	//no data, bail
-    	if (WorldDirector.curInvasions.get(dimID) == null) return;
+    	if (WorldDirectorMultiDim.curInvasions.get(dimID) == null) return;
     	
     	//Invasions
     	NBTTagCompound invasionList = new NBTTagCompound();
-		for (int j = 0; j < WorldDirector.curInvasions.get(dimID).size(); j++) {
-			WorldEvent invasion = WorldDirector.curInvasions.get(dimID).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.curInvasions.get(dimID).size(); j++) {
+			WorldEvent invasion = WorldDirectorMultiDim.curInvasions.get(dimID).get(j);
 			NBTTagCompound invasionData = new NBTTagCompound();
 			invasion.writeNBT(invasionData);
 			invasionList.setTag("invasion_" + j, invasionData);
@@ -252,8 +252,8 @@ public class HWDimensionManager {
 		
 		//Curses
 		NBTTagCompound curseList = new NBTTagCompound();
-		for (int j = 0; j < WorldDirector.coordCurses.get(dimID).size(); j++) {
-			CursedAreaCoordinates curse = WorldDirector.coordCurses.get(dimID).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.coordCurses.get(dimID).size(); j++) {
+			CursedAreaCoordinates curse = WorldDirectorMultiDim.coordCurses.get(dimID).get(j);
 			NBTTagCompound curseData = new NBTTagCompound();
 			curse.writeNBT(curseData);
 			curseList.setTag("curse_" + j, curseData);
@@ -261,8 +261,8 @@ public class HWDimensionManager {
 		
 		//Surface Caves
 		NBTTagCompound surfaceCaveList = new NBTTagCompound();
-		for (int j = 0; j < WorldDirector.coordSurfaceCaves.get(dimID).size(); j++) {
-			ChunkCoordinates coords = WorldDirector.coordSurfaceCaves.get(dimID).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.coordSurfaceCaves.get(dimID).size(); j++) {
+			ChunkCoordinates coords = WorldDirectorMultiDim.coordSurfaceCaves.get(dimID).get(j);
 			NBTTagCompound coordData = new NBTTagCompound();
 			HostileWorlds.writeChunkCoords("coord", coords, coordData);
 			//curse.writeNBT(coordData);
@@ -271,8 +271,8 @@ public class HWDimensionManager {
 		
 		//Caves - this might not need to be written out, its a lot of data too
 		NBTTagCompound caveList = new NBTTagCompound();
-		for (int j = 0; j < WorldDirector.coordCaves.get(dimID).size(); j++) {
-			ChunkCoordinates coords = WorldDirector.coordCaves.get(dimID).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.coordCaves.get(dimID).size(); j++) {
+			ChunkCoordinates coords = WorldDirectorMultiDim.coordCaves.get(dimID).get(j);
 			NBTTagCompound coordData = new NBTTagCompound();
 			HostileWorlds.writeChunkCoords("coord", coords, coordData);
 			//curse.writeNBT(coordData);
@@ -281,8 +281,8 @@ public class HWDimensionManager {
 		
 		//Invasion Sources
 		NBTTagCompound invasionSourceList = new NBTTagCompound();
-		for (int j = 0; j < WorldDirector.coordInvasionSources.get(dimID).size(); j++) {
-			ChunkCoordinates coords = WorldDirector.coordInvasionSources.get(dimID).get(j);
+		for (int j = 0; j < WorldDirectorMultiDim.coordInvasionSources.get(dimID).size(); j++) {
+			ChunkCoordinates coords = WorldDirectorMultiDim.coordInvasionSources.get(dimID).get(j);
 			NBTTagCompound coordData = new NBTTagCompound();
 			HostileWorlds.writeChunkCoords("coord", coords, coordData);
 			//curse.writeNBT(coordData);

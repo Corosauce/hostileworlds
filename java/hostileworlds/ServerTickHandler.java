@@ -1,13 +1,13 @@
 package hostileworlds;
 
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 
 public class ServerTickHandler
 {
 	
-	public static WorldDirector wd;
+	public static WorldDirectorMultiDim wd;
 	//public static RtsEngine rts;
 	
 	public static World lastWorld = null;
@@ -15,7 +15,7 @@ public class ServerTickHandler
     public static void onTickInGame()
     {
     	
-    	if (wd == null) wd = new WorldDirector();
+    	if (wd == null) wd = new WorldDirectorMultiDim();
     	//if (rts == null) rts = new RtsEngine();
     	
     	if (lastWorld != DimensionManager.getWorld(0)) {

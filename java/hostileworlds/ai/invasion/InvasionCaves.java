@@ -2,7 +2,7 @@ package hostileworlds.ai.invasion;
 
 import hostileworlds.HostileWorlds;
 import hostileworlds.ServerTickHandler;
-import hostileworlds.ai.WorldDirector;
+import hostileworlds.ai.WorldDirectorMultiDim;
 import hostileworlds.config.ModConfigFields;
 
 import java.util.ArrayList;
@@ -37,15 +37,15 @@ public class InvasionCaves extends WorldEvent {
 			if (ServerTickHandler.wd.spawnGroup(DimensionManager.getWorld(dimensionID), this.coordDestination, this.coordSource, this, currentWaveSpawnedInvaders)) {
 				HostileWorlds.dbg("spawned cave group!");
 				if (!mainPlayerName.equals("")) {
-					NBTTagCompound nbt = WorldDirector.getPlayerNBT(mainPlayerName);
+					NBTTagCompound nbt = WorldDirectorMultiDim.getPlayerNBT(mainPlayerName);
 					nbt.setInteger("numOfWavesSpawned", nbt.getInteger("numOfWavesSpawned")+1);
 				}
 				setState(state.W1);
 			} else {
 				HostileWorlds.dbg("failed to spawn cave group, trying another cave");
-				if (WorldDirector.coordCaves.get(dimensionID).size() > 0) {
+				if (WorldDirectorMultiDim.coordCaves.get(dimensionID).size() > 0) {
 					ArrayList<ChunkCoordinates> invasionSources = new ArrayList<ChunkCoordinates>();
-					invasionSources = ServerTickHandler.wd.getUnusedInvasionSourcesInRange(WorldDirector.coordCaves.get(dimensionID), coordDestination, dimensionID, ModConfigFields.meteorCrashDistFromPlayerMax);
+					invasionSources = ServerTickHandler.wd.getUnusedInvasionSourcesInRange(WorldDirectorMultiDim.coordCaves.get(dimensionID), coordDestination, dimensionID, ModConfigFields.meteorCrashDistFromPlayerMax);
 					if (invasionSources.size() > 0) {
 						Random rand = new Random(invasionSources.size());
 						coordSource = invasionSources.get(rand.nextInt(invasionSources.size()));
